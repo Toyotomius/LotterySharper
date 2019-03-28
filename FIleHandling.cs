@@ -45,7 +45,7 @@ namespace LotteryCore
 
             sb.AppendLine($"{{\"{Program.LotteryName}Singles\" : \n[");
 
-            foreach (var t in freq.FindSingles().ToList())
+            foreach (var t in freq.FindSingles())
             {
                 sb.AppendLine($@"{{""Number"": {t.Number}, ""Frequency"": {t.Count}}},");
             }
@@ -99,10 +99,10 @@ namespace LotteryCore
 
             #endregion Start Pairs
 
-            sb.Clear();
+
 
             #region Start Triplets
-
+            sb.Clear();
             string tripsJsonPath = $"{Program.LotteryName}Trips.json";
             File.Delete(tripsJsonPath);
             sb.AppendLine($"{{\"{Program.LotteryName}Triplets\" : \n[");

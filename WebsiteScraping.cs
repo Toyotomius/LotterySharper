@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using HtmlAgilityPack;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 
+using HtmlAgilityPack;
+
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 
 namespace LotteryCore
 {
@@ -42,9 +42,8 @@ namespace LotteryCore
                 "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36",
                 "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0"
             };
-            
+
             int randomUserAgentIndex = rand.Next(uagents.Length);
-            
 
             ChromeOptions coptions = new ChromeOptions();
             coptions.AddArgument($"--user-agent={uagents[randomUserAgentIndex]}");
@@ -52,10 +51,9 @@ namespace LotteryCore
             IWebDriver driver = new ChromeDriver(coptions);
 
             driver.Url = "http://localhost:8000/test.htm";
-            
+
             //Screenshot sh = driver.GetScreenshot();
             //sh.SaveAsFile(@"C:\Misc\Temp.jpg", ImageFormat.Png);
-           
 
             var source = driver.PageSource;
             var alc = new HtmlDocument();
@@ -63,10 +61,7 @@ namespace LotteryCore
 
             Console.WriteLine("BreakPoint");
 
-            
-
             // ALC Winner Website: https://www.alc.ca/content/alc/en/winning-numbers.html
-            
 
             var lotto649 = alc.DocumentNode.SelectNodes("//div[@class='panel-group category-accordion-Lotto649']");
             var lottoMaxDrawDate = alc.DocumentNode.SelectSingleNode("//script[contains(.,'gameId: \"Lotto649\"')]");
@@ -84,6 +79,7 @@ namespace LotteryCore
             //    Console.WriteLine("Breakpoint");
             //}
         }
+
         // TODO: Set date by automated scrape time. Or use a regex to parse the <script> for the latest date.
         // TODO: Set up some scraping. Tie it into the config file for any number of websites desired. Put the results
         // scrapped into a correct format and insert it into the appropriate json file.
