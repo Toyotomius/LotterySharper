@@ -1,0 +1,133 @@
+﻿/*
+						 List<Lotto> lotto = new List<Lotto>
+						 {
+							 new Lotto() {Date = "Date1", Numbers = new int[] {2, 5, 13, 14, 32, 49}},
+							 new Lotto() {Date = "Date2", Numbers = new int[] {5, 14, 16, 22, 23, 44}},
+							 new Lotto() {Date = "Date3", Numbers = new int[] {14, 22, 24, 28, 32, 34}},
+							 new Lotto() {Date = "Date4", Numbers = new int[] {5, 22, 23, 28, 33, 35, 49}}
+						 };
+
+						 var temp = lotto.Select(a => a.Numbers);
+						 var items = lotto.SelectMany(a => a.Numbers).Distinct();
+						 var pairs =
+							 from a in items
+							 from b in items
+							 where a.CompareTo(b) < 0
+							 select new {a, b};
+
+						 var results =
+						 (from l in temp
+						  from p in pairs
+						  where l.Contains(p.a) && l.Contains(p.b)
+						  group l by p into g
+						  orderby g.Count() descending
+						  select new
+						  {
+							  pair = g.Key,
+							  count = g.Count()
+						  });
+
+						 foreach(var r in temp)
+						 {
+							 Console.WriteLine($"{r}");
+						 }
+			*/
+
+			 /*
+			for (int n = 1; n < o1["Lotto649"].Count(); n++)
+			{
+				//if (n % 2 == 0)
+				//  lotto.Add(new Date {Date = o1["Lotto649"][n]["Date"].ToString()});
+				if (n % 2 == 1)
+				{
+					lotto.Add(new Numbers { Numbers = new[] { o1["Lotto649"][n]["Numbers"].Select(x => (int)x).ToArray() } });
+				}
+			}
+
+			var test = lotto.SelectMany(a => a.Numbers);
+			var test2 = test.SelectMany(a => a).Distinct();
+
+			var pairs =
+				from a in test2
+				from b in test2
+				from c in test2
+				where a.CompareTo(b) < 0 && a.CompareTo(c) < 0 && b.CompareTo(c) < 0
+				select new { a, b, c };
+
+			var results =
+			(from l in test
+			 from p in pairs
+			 where l.Contains(p.a) && l.Contains(p.b) && l.Contains(p.c)
+			 group l by p into g
+			 orderby g.Count() descending
+			 select new
+			 {
+				 pair = g.Key,
+				 count = g.Count()
+			 });
+
+			StringBuilder sb = new StringBuilder();
+
+			foreach (var t in results)
+			{
+				sb.AppendLine(t + Environment.NewLine);
+			};
+
+			string output = sb.ToString();
+
+			using (StreamWriter sw = new StreamWriter(@"C:\trips.json", append: true))
+			{
+				sw.WriteLine(output);
+			}
+
+			/*
+			List<int> temp = new List<int>();
+			List<int> nums = new List<int>();
+			for (int n = 1; n < 151; n++)
+			{
+				if (n % 2 == 1)
+				{
+					temp = o1["Lotto649"][n]["Numbers"].Select(x => (int) x).ToList();
+					foreach (int i in temp)
+						nums.Add(i);
+				}
+			}
+
+			var temp1 = lotto.Select(a => a);
+			var items = lotto.Select(a => a).Distinct();
+			var pairs =
+				from a in items
+				from b in items
+				where a.CompareTo(b) < 0
+				select new { a, b };
+
+			var results =
+			(from l in temp1
+				from p in pairs
+				//where l.Contains(p.a) && l.Contains(p.b)
+				group l by p into g
+				orderby g.Count() descending
+				select new
+				{
+					pair = g.Key,
+					count = g.Count()
+			   });
+
+			foreach (var r in results)
+			{
+				using (StreamWriter sw = new StreamWriter(@"H:\Coding\Lotto Numbers\649\output.json", append: true))
+					sw.WriteLine(r);
+			}
+
+		   //var list = JObject.Parse(json)["Lotto649"][n]["Numbers"].Select(x => (int) x).ToArray();
+
+			/*JObject o1 = JObject.Parse(File.ReadAllText(@"H:\Coding\Lotto Numbers\649\649.json"));
+
+				 for (int n = 1; n < o1["Lotto649"].Count(); n++)
+				 {
+					 if (n % 2 == 1)
+					 {
+						 Console.WriteLine("Numbers: {0}", o1["Lotto649"][n]["Numbers"]); // Uses rootkey and index for subsequent key. Iterates through entire list.
+					 }
+				 }
+			 */
