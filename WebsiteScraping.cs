@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-
+using System.Threading.Tasks;
 using HtmlAgilityPack;
 
 using OpenQA.Selenium;
@@ -78,6 +78,7 @@ namespace LotteryCore
             //    Console.WriteLine(itm.ToString());
             //    Console.WriteLine("Breakpoint");
             //}
+            return;
         }
 
         // TODO: Set date by automated scrape time. Or use a regex to parse the <script> for the latest date.

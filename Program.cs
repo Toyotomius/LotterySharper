@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+
 
 namespace LotteryCore
 {
@@ -21,12 +24,18 @@ namespace LotteryCore
 
         private static void Main()
         {
-            string logFile = "logfile.txt";
+            SchdTask schd = new SchdTask();
+            schd.Schedule();
+            while (true)
+            {
 
-            WebsiteScraping ws = new WebsiteScraping();
-            ws.Scrape();
+            }
+            //string logFile = "logfile.txt";
 
-            Console.ReadKey();
+            //WebsiteScraping ws = new WebsiteScraping();
+            //ws.Scrape();
+
+            //Console.ReadKey();
 
             //Temporarily commented out while working on other classes & methods.
             //while (true)
