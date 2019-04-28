@@ -10,7 +10,7 @@ namespace LotteryCore
 {
     public class WebsiteScraping
     {
-        private Random rand = new Random();
+        private Random _rand = new Random();
 
         public void Scrape()
         {
@@ -43,7 +43,7 @@ namespace LotteryCore
                 "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0"
             };
 
-            int randomUserAgentIndex = rand.Next(uagents.Length);
+            int randomUserAgentIndex = _rand.Next(uagents.Length);
 
             ChromeOptions coptions = new ChromeOptions();
             coptions.AddArgument($"--user-agent={uagents[randomUserAgentIndex]}");

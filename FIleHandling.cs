@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
+
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace LotteryCore
@@ -10,20 +11,16 @@ namespace LotteryCore
     {
         private List<LottoData> _lottoData = new List<LottoData>();
 
-        private string _output;
-
-        public List<LottoData> CreateLottoList()
+        public List<LottoData> CreateLottoList(string lotteryName, JObject lotteryData)
         {
-            JObject lotteryObject = Program.LotteryJObject;
-
             //TODO: Find a better way of doing this.
-
-            for (int i = 0; i < lotteryObject[Program.LotteryName].Count(); i++)
+            // Iterates through the lottery JObject and returns an ordered list of <string Date, int[] Numbers> to be manipulated.
+            for (int i = 0; i < lotteryData[lotteryName].Count(); i++)
             {
                 _lottoData.Add(new LottoData
                 {
-                    Date = lotteryObject[Program.LotteryName][i]["Date"].ToString(),
-                    Numbers = lotteryObject[Program.LotteryName][i]["Numbers"].Select(x => (int)x).ToArray()
+                    Date = lotteryData[lotteryName][i]["Date"].ToString(),
+                    Numbers = lotteryData[lotteryName][i]["Numbers"].Select(x => (int)x).ToArray()
                 });
             }
 
@@ -32,102 +29,91 @@ namespace LotteryCore
 
         // TODO: Make this less method specific. I want it to do the thing based on what argument gets passed for singles, pairs, or trips.
 
-        public void FileOut(List<LottoData> lotto)
+        public void FileOut(string lotteryName, List<LottoData> lotto)
         {
             Frequency freq = new Frequency(lotto);
 
-            #region Start Singles
+            #region Singles
 
-            StringBuilder sb = new StringBuilder();
+            string singleJsonPath = $"{lotteryName}Singles.json";
 
-            string singleJsonPath = $"{Program.LotteryName}Singles.json";
-            File.Delete(singleJsonPath);
-
-            sb.AppendLine($"{{\"{Program.LotteryName}Singles\" : \n[");
-
-            foreach (var t in freq.FindSingles())
+            // Creates new list and adds content from method for conversion to json
+            List<Singles> s = new List<Singles>();
+            foreach (var itm in freq.FindSingles())
             {
-                sb.AppendLine($@"{{""Number"": {t.Number}, ""Frequency"": {t.Count}}},");
-            }
-            var index = sb.ToString().LastIndexOf(',');
-
-            if (index >= 0)
-            {
-                sb.Remove(index, 1);
-            }
-            sb.AppendLine("]\n}");
-            _output = sb.ToString();
-
-            using (StreamWriter sw = new StreamWriter(singleJsonPath, append: true))
-            {
-                sw.WriteLine(_output);
+                s.Add(new Singles
+                {
+                    First = itm.Number,
+                    Frequency = itm.Count
+                });
             }
 
-            #endregion Start Singles
+            // Converts list to json string.
+            string singlesJson = JsonConvert.SerializeObject(s, Formatting.Indented);
 
-            #region Start Pairs
-
-            sb.Clear();
-
-            string pairJsonPath = $"{Program.LotteryName}Pairs.json";
-            File.Delete(pairJsonPath);
-
-            sb.AppendLine($"{{\"{Program.LotteryName}Pairs\" : \n[");
-
-            // Instantiates frequency and processes the list only when needed immediately before building the string to write.
-
-            foreach (var t in freq.FindPairs().ToList())
+            // Writes json string to file.
+            using (StreamWriter sw = new StreamWriter(singleJsonPath))
             {
-                sb.AppendLine($@"{{""First"": {t.Pair.FirstNum}, ""Second"": {t.Pair.SecondNum}, ""Frequency"": {t.Count}}},");
+                sw.WriteLine(singlesJson);
             }
+
+            #endregion Singles
+
+            #region Pairs
+
+            string pairJsonPath = $"{lotteryName}Pairs.json";
+
+            List<Pairs> p = new List<Pairs>();
+
+            // Instantiates frequency and processes the list only when needed immediately before building the object to
+            // convert to json.
+
+            foreach (var itm in freq.FindPairs().ToList())
+            {
+                p.Add(new Pairs
+                {
+                    First = itm.Pair.FirstNum, // Order is Second, First, Frequency in output due to derived/base initialization order.
+                    Second = itm.Pair.SecondNum,
+                    Frequency = itm.Count
+                });
+            }
+
+            string pairsJson = JsonConvert.SerializeObject(p, Formatting.Indented);
 
             // Picks out the last instance of a comma and removes it to adhere to json format.
-            index = sb.ToString().LastIndexOf(',');
-            if (index >= 0)
+
+            using (StreamWriter sw = new StreamWriter(pairJsonPath))
             {
-                sb.Remove(index, 1);
+                sw.WriteLine(pairsJson);
             }
 
-            sb.AppendLine("]\n}");
+            #endregion Pairs
 
-            _output = sb.ToString();
+            #region Triplets
 
-            using (StreamWriter sw = new StreamWriter(pairJsonPath, append: true))
+            string tripsJsonPath = $"{lotteryName}Trips.json";
+
+            List<Triplets> t = new List<Triplets>();
+
+            foreach (var itm in freq.FindTrips().ToList())
             {
-                sw.WriteLine(_output);
+                t.Add(new Triplets
+                {
+                    First = itm.Triplet.FirstNum,
+                    Second = itm.Triplet.SecondNum,
+                    Third = itm.Triplet.ThirdNum,
+                    Frequency = itm.Count
+                });
             }
 
-            #endregion Start Pairs
+            string tripsJson = JsonConvert.SerializeObject(t, Formatting.Indented);
 
-
-
-            #region Start Triplets
-            sb.Clear();
-            string tripsJsonPath = $"{Program.LotteryName}Trips.json";
-            File.Delete(tripsJsonPath);
-            sb.AppendLine($"{{\"{Program.LotteryName}Triplets\" : \n[");
-
-            foreach (var t in freq.FindTrips().ToList())
+            using (StreamWriter sw = new StreamWriter(tripsJsonPath))
             {
-                sb.AppendLine($@"{{""First"": {t.Triplet.FirstNum}, ""Second"": {t.Triplet.SecondNum}, ""Third"": {t.Triplet.ThirdNum}, ""Frequency"": {t.Count}}},");
+                sw.WriteLine(tripsJson);
             }
 
-            index = sb.ToString().LastIndexOf(',');
-            if (index >= 0)
-            {
-                sb.Remove(index, 1);
-            }
-
-            sb.AppendLine("]\n}");
-
-            _output = sb.ToString();
-
-            using (StreamWriter sw = new StreamWriter(tripsJsonPath, append: true))
-            {
-                sw.WriteLine(_output);
-            }
-
-            #endregion Start Triplets
+            #endregion Triplets
         }
 
         public class LottoData
@@ -137,8 +123,25 @@ namespace LotteryCore
             public int[] Numbers { get; set; }
         }
     }
+
+    public class Singles
+    {
+        public int First { get; set; }
+
+        public int Frequency { get; set; }
+    }
+
+    public class Pairs : Singles
+    {
+        public int Second { get; set; }
+    }
+
+    public class Triplets : Pairs
+    {
+        public int Third { get; set; }
+    }
 }
 
 // TODOCompleted: Create Handling for any lottery set. Use config file to import the files instead of hard-code. Read
-//                root object and assign accordingly per lottery.
+// root object and assign accordingly per lottery.
 // TODOCompleted: Re-Write the file when called instead of perma-appending to a giant arse file.

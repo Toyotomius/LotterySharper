@@ -1,101 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 
+using Newtonsoft.Json.Linq;
 
 namespace LotteryCore
 {
     internal class Program
     {
-        public static JObject LotteryJObject;
-
-        private static string _lotteryFile;
-
-        private static string _lotteryName;
-
-        public static string LotteryName
-        {
-            get => _lotteryName;
-            private set => _lotteryName = value;
-        }
-
         private static void Main()
         {
-            SchdTask schd = new SchdTask();
-            schd.Schedule();
-            while (true)
-            {
-
-            }
-            //string logFile = "logfile.txt";
+            //SchdTask schd = new SchdTask();
+            //schd.Schedule();
+            //while (true)
+            //{
+            //}
+            string logFile = Settings.LogFile;
 
             //WebsiteScraping ws = new WebsiteScraping();
             //ws.Scrape();
 
             //Console.ReadKey();
 
-            //Temporarily commented out while working on other classes & methods.
-            //while (true)
-            //{
-            //    Settings settings = new Settings();
-            //    settings.GetSettings();
+            // Temporarily commented out while working on other classes & methods.
+            while (true)
+            {
+                Settings settings = new Settings();
 
-            //    //TODO: Check to see if a file has been added to.Ignore it if it hasn't been.
-            //    // TODO: Clean up logfile at various points.
+                // Retrieves the filename and the list of Json objects from the files as a tuple.
+                (List<string> LotteryFile, List<JObject> LotteryJObject) lotteryInfo = settings.ApplySettings();
+                var lotteryFile = lotteryInfo.LotteryFile;
 
-            //    foreach (JToken itm in (JArray)settings.SettingsFromFile["LotteryMasterFiles"])
-            //    {
-            //        _lotteryFile = itm.ToString();
+                //TODO: Check to see if a file has been added to.Ignore it if it hasn't been.
+                // TODO: Clean up logfile at various points.
+                
+                // Iterates through confirmed file data and 
+                for (var i = 0; i < lotteryInfo.LotteryJObject.Count; i++)
+                {
+                    var lotteryName = $"{Path.GetFileNameWithoutExtension(lotteryInfo.LotteryFile[i].ToString())}";
+                    var lotteryData = lotteryInfo.LotteryJObject[i];
+                    FileHandling fh = new FileHandling();
+                    List<FileHandling.LottoData> lotto;
 
-            //        try
-            //        {
-            //            LotteryJObject = JObject.Parse(File.ReadAllText($"{_lotteryFile}"));
-            //        }
-            //        catch (Exception) when (!File.Exists(_lotteryFile))
-            //        {
-            //            using (StreamWriter sw = new StreamWriter(logFile, append: true))
-            //            {
-            //                sw.WriteLine($"{DateTime.Now} : " +
-            //                             $"File \"{_lotteryFile}\" Does Not Exist. Verify the folder location & is correctly named in the config.\n" +
-            //                             $"    * Check the config.json file for proper format.");
-            //            }
-            //            continue;
-            //        }
+                    try
+                    {
+                        lotto = fh.CreateLottoList(lotteryName, lotteryData);
+                    }
+                    catch (ArgumentNullException)
+                    {
+                        using (StreamWriter sw = new StreamWriter(logFile, append: true))
+                        {
+                            sw.WriteLine(
+                                $"{DateTime.Now} : Lottery Data List creation failed for \"{lotteryFile[i]}\". Verify the json file is correctly formed." +
+                                "\nSee example.json for correct format. Ensure root object & file name are identical.");
+                        }
 
-            //        LotteryName = $"{Path.GetFileNameWithoutExtension(_lotteryFile)}";
-            //        FileHandling fh = new FileHandling();
-            //        List<FileHandling.LottoData> lotto;
+                        continue;
+                    }
 
-            //        try
-            //        {
-            //            lotto = fh.CreateLottoList();
-            //        }
-            //        catch (ArgumentNullException)
-            //        {
-            //            using (StreamWriter sw = new StreamWriter(logFile, append: true))
-            //            {
-            //                sw.WriteLine(
-            //                    $"{DateTime.Now} : Lottery Data List creation failed for \"{_lotteryFile}\". Verify the json file is correctly formed." +
-            //                    "\nSee example.json for correct format. Ensure root object & file name are identical.");
-            //            }
-            //            continue;
-            //        }
+                    fh.FileOut(lotteryName, lotto);
+                }
 
+                Console.WriteLine("Breakpoint");
 
-            //        fh.FileOut(lotto);
+                Console.WriteLine("Done");
 
-            //    }
-
-            //Console.WriteLine("Breakpoint");
-
-            //    Console.WriteLine("Done");
-
-            //    System.Threading.Thread.Sleep(30000);
-            //}
-
+                //    System.Threading.Thread.Sleep(30000);
+                //}
+            }
         }
     }
 }
