@@ -1,18 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
+
+using LotteryCore.Interfaces;
 
 using Newtonsoft.Json.Linq;
 
 namespace LotteryCore
 {
-    public class Settings
+    public class Settings : ISettings
     {
         //TODO: All the things here. All of 'em.
 
         private string _configContents;
 
-        public string ConfigContents
+        private string ConfigContents
         {
             get => this._configContents;
             set
@@ -36,60 +37,12 @@ namespace LotteryCore
 
         private JObject SettingsFromFile { get; set; }
 
-        private List<JObject> LotteryJObject;
-
-        private List<string> LotteryFile { get; set; }
-
-        public const string LogFile = "logfile.txt";
-
         // Pulls settings from the config file.
         public JObject GetSettings()
         {
             ConfigContents = (File.ReadAllText("config.json"));
             SettingsFromFile = JObject.Parse(_configContents);
             return SettingsFromFile;
-        }
-
-        public (List<string> LotteryFile, List<JObject> LotteryJObject) ApplySettings()
-        {
-            JObject settingsFromFile = GetSettings();
-
-            //TODO: Check to see if a file has been added to.Ignore it if it hasn't been.
-            // TODO: Clean up logfile at various points.
-
-            LotteryFile = new List<string>();
-            LotteryJObject = new List<JObject>();
-
-            // Takes each item from the array of json lottery files and adds it to a list
-            foreach (JToken itm in settingsFromFile["LotteryMasterFiles"])
-            {
-                LotteryFile.Add(itm.ToString());
-            }
-
-            // Descending for loop to allow for removing any files that are not present while logging such.
-            for (var i = LotteryFile.Count - 1; i >= 0; i--)
-            {
-                try
-                {
-                    // tries to create list of json objects from the contents of the file from config
-                    LotteryJObject.Add(JObject.Parse(File.ReadAllText($"{LotteryFile[i]}")));
-                }
-                catch (Exception) when (!File.Exists(LotteryFile[i]))
-                {
-                    using (StreamWriter sw = new StreamWriter(LogFile, append: true))
-                    {
-                        sw.WriteLine($"{DateTime.Now} : " +
-                                     $"File \"{LotteryFile[i]}\" Does Not Exist. Verify the folder location & is correctly named in the config.\n" +
-                                     $"    * Check the config.json file for proper format.");
-                    }
-                    LotteryFile.Remove(LotteryFile[i]);
-                    continue;
-                }
-            }
-
-            // Reverses list to compensate for descending for loop
-            LotteryJObject.Reverse();
-            return (LotteryFile, LotteryJObject);
         }
     }
 }
