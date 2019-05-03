@@ -1,16 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using LotteryCore.Interfaces;
+
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace LotteryCore
 {
     public class FileHandling
     {
- 
-
         // TODO: Make this less method specific. I want it to do the thing based on what argument gets passed for singles, pairs, or trips.
 
         public void FileOut(string lotteryName, (IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers) parsedLotto)
@@ -45,6 +42,7 @@ namespace LotteryCore
 
             #region Pairs
 
+            FindLottoPairs lottoPairs = new FindLottoPairs();
             NumberParsing freq = new NumberParsing();
             string pairJsonPath = $"{lotteryName}Pairs.json";
 
@@ -53,7 +51,7 @@ namespace LotteryCore
             // Instantiates frequency and processes the list only when needed immediately before building the object to
             // convert to json.
 
-            foreach (var itm in freq.FindPairs(parsedLotto).ToList())
+            foreach (var itm in lottoPairs.FindPairs(parsedLotto).ToList())
             {
                 p.Add(new Pairs
                 {
@@ -76,11 +74,12 @@ namespace LotteryCore
 
             #region Triplets
 
+            FindLottoTriplets lottoTrips = new FindLottoTriplets();
             string tripsJsonPath = $"{lotteryName}Trips.json";
 
             List<Triplets> t = new List<Triplets>();
 
-            foreach (var itm in freq.FindTrips(parsedLotto).ToList())
+            foreach (var itm in lottoTrips.FindTrips(parsedLotto).ToList())
             {
                 t.Add(new Triplets
                 {
@@ -100,8 +99,6 @@ namespace LotteryCore
 
             #endregion Triplets
         }
-
-
     }
 
     public class Singles

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using LotteryCore.Interfaces;
+
 using Newtonsoft.Json.Linq;
 
 namespace LotteryCore
@@ -27,6 +26,5 @@ namespace LotteryCore
 
             return _lottoData;
         }
-        
     }
 }

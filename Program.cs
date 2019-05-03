@@ -71,6 +71,7 @@ namespace LotteryCore
         }
     }
 }
+
 // TODO: Dependency Injection.
 // TODO: Sanity checks. All the sanity. It's currently without any ability to remain sane.
 // TODO: Add some sort of ability to pick out frequency based on a range of dates.
