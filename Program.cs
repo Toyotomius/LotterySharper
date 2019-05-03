@@ -39,14 +39,15 @@ namespace LotteryCore
                 // Iterates through confirmed file data and
                 for (var i = 0; i < lotteryInfo.LotteryJObject.Count; i++)
                 {
-                    var lotteryName = $"{Path.GetFileNameWithoutExtension(lotteryInfo.LotteryFile[i])}";
-                    var lotteryData = lotteryInfo.LotteryJObject[i];
+                    string lotteryName = $"{Path.GetFileNameWithoutExtension(lotteryInfo.LotteryFile[i])}";
+                    JObject lotteryData = lotteryInfo.LotteryJObject[i];
                     FileHandling fh = new FileHandling();
-                    List<FileHandling.LottoData> lotto;
+                    IMakeLottoList createLottoList = Factory.CreateLottoList();
+                    List<ILottoData> lotto;
 
                     try
                     {
-                        lotto = fh.CreateLottoList(lotteryName, lotteryData);
+                        lotto = createLottoList.CreateLottoList(lotteryName, lotteryData);
                     }
                     catch (ArgumentNullException)
                     {
@@ -55,7 +56,9 @@ namespace LotteryCore
                         continue;
                     }
 
-                    fh.FileOut(lotteryName, lotto);
+                    INumberParsing lottoNumberParser = Factory.CreateNumberParser();
+                    var parsedLotto = lottoNumberParser.ParseLottoList(lotto);
+                    fh.FileOut(lotteryName, parsedLotto);
                 }
 
                 Console.WriteLine("Breakpoint");

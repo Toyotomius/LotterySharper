@@ -1,50 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LotteryCore.Interfaces;
 
 namespace LotteryCore
 {
-    public class Frequency
+    public class NumberParsing : INumberParsing
     {
-        internal class LottoPairs
-        {
-            public int FirstNum { get; set; }
 
-            public int SecondNum { get; set; }
-        }
+        public IEnumerable<int[]> AllNumbers { get; set; } // Selects all the number arrays from the list.
 
-        private IEnumerable<int[]> AllNumbers { get; set; } // Selects all the number arrays from the list.
+        public IEnumerable<int> DistinctNumbers { get; set; } // Grabs just the distinct numbers in the list.
 
-        private IEnumerable<int> DistinctNumbers { get; set; } // Grabs just the distinct numbers in the list.
-
-        public Frequency(List<FileHandling.LottoData> lotto)
+        public (IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers) ParseLottoList(List<ILottoData> lotto)
         {
             AllNumbers = lotto.Select(a => a.Numbers);
             DistinctNumbers = lotto.SelectMany(a => a.Numbers).Distinct();
+            return (AllNumbers, DistinctNumbers);
         }
 
         //TODOCompleted Optimization. Review later.
 
-        public IEnumerable<LottoSinglesCount> FindSingles()
-        {
-            List<LottoSinglesCount> singlesList = (from n in AllNumbers.SelectMany(x => x)
-                                                   group n by n into g
-                                                   orderby g.Count() descending
-                                                   select new LottoSinglesCount { Number = g.Key, Count = g.Count() }).ToList();
-            return singlesList;
-        }
+        
 
-        public class LottoSinglesCount
-        {
-            internal int Number { get; set; }
+        
 
-            internal int Count { get; set; }
-        }
-
-        public IEnumerable<LottoPairsCount> FindPairs()
+        public IEnumerable<LottoPairsCount> FindPairs((IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers) parsedLotto)
         {
             List<LottoPairs> pairs = (
-                from firstNum in DistinctNumbers
-                from secondNum in DistinctNumbers
+                from firstNum in parsedLotto.DistinctNumbers
+                from secondNum in parsedLotto.DistinctNumbers
 
                     // Grabs a number and compares it to a second number to ensure they're not the same number.
                 where firstNum.CompareTo(secondNum) < 0
@@ -53,7 +37,7 @@ namespace LotteryCore
                 select new LottoPairs { FirstNum = firstNum, SecondNum = secondNum }).ToList();
 
             IEnumerable<LottoPairsCount> pairList =
-                (from l in AllNumbers
+                (from l in parsedLotto.AllNumbers
                  from p in pairs
 
                      // Grabs each possible pair and the entire list of number arrays and finds where both numbers appear
@@ -72,17 +56,17 @@ namespace LotteryCore
             return pairList;
         }
 
-        public IEnumerable<LottoTripletsCount> FindTrips()
+        public IEnumerable<LottoTripletsCount> FindTrips((IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers) parsedLotto)
         {
             List<LottoTriplets> trips =
-                (from firstNum in DistinctNumbers
-                 from secondNum in DistinctNumbers
-                 from thirdNum in DistinctNumbers
+                (from firstNum in parsedLotto.DistinctNumbers
+                 from secondNum in parsedLotto.DistinctNumbers
+                 from thirdNum in parsedLotto.DistinctNumbers
                  where firstNum.CompareTo(secondNum) < 0 && firstNum.CompareTo(thirdNum) < 0 && secondNum.CompareTo(thirdNum) < 0
                  select new LottoTriplets { FirstNum = firstNum, SecondNum = secondNum, ThirdNum = thirdNum }).ToList();
 
             IEnumerable<LottoTripletsCount> tripletList =
-                (from l in AllNumbers
+                (from l in parsedLotto.AllNumbers
                  from p in trips
                  where l.Contains(p.FirstNum) && l.Contains(p.SecondNum) && l.Contains(p.ThirdNum)
                  group l by p into g
@@ -97,6 +81,24 @@ namespace LotteryCore
         }
     }
 
+    public class LottoSinglesCount
+    {
+        internal int FirstNum { get; set; }
+
+        internal int Count { get; set; }
+    }
+    internal class LottoPairs
+    {
+        public int FirstNum { get; set; }
+
+        public int SecondNum { get; set; }
+    }
+    public class LottoPairsCount
+    {
+        internal LottoPairs Pair { get; set; }
+
+        internal int Count { get; set; }
+    }
     public class LottoTripletsCount
     {
         internal LottoTriplets Triplet { get; set; }
@@ -104,21 +106,12 @@ namespace LotteryCore
         internal int Count { get; set; }
     }
 
-    internal class LottoTriplets
+    internal class LottoTriplets : LottoPairs
     {
-        public int FirstNum { get; set; }
-
-        public int SecondNum { get; set; }
-
         public int ThirdNum { get; set; }
     }
 
-    public class LottoPairsCount
-    {
-        internal Frequency.LottoPairs Pair { get; set; }
-
-        internal int Count { get; set; }
-    }
+    
 }
 
 // TODO: Calculate bonus frequency separately.

@@ -18,5 +18,20 @@ namespace LotteryCore
         {
             return new Logging();
         }
+
+        public static ILottoData CreateLottoData()
+        {
+            return new LottoData();
+        }
+
+        public static IMakeLottoList CreateLottoList()
+        {
+            return new MakeLottoList();
+        }
+
+        public static INumberParsing CreateNumberParser()
+        {
+            return new NumberParsing();
+        }
     }
 }

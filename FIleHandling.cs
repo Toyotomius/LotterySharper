@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
+using LotteryCore.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -9,29 +9,13 @@ namespace LotteryCore
 {
     public class FileHandling
     {
-        private List<LottoData> _lottoData = new List<LottoData>();
-
-        public List<LottoData> CreateLottoList(string lotteryName, JObject lotteryData)
-        {
-            //TODO: Find a better way of doing this.
-            // Iterates through the lottery JObject and returns an ordered list of <string Date, int[] Numbers> to be manipulated.
-            for (int i = 0; i < lotteryData[lotteryName].Count(); i++)
-            {
-                _lottoData.Add(new LottoData
-                {
-                    Date = lotteryData[lotteryName][i]["Date"].ToString(),
-                    Numbers = lotteryData[lotteryName][i]["Numbers"].Select(x => (int)x).ToArray()
-                });
-            }
-
-            return _lottoData;
-        }
+ 
 
         // TODO: Make this less method specific. I want it to do the thing based on what argument gets passed for singles, pairs, or trips.
 
-        public void FileOut(string lotteryName, List<LottoData> lotto)
+        public void FileOut(string lotteryName, (IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers) parsedLotto)
         {
-            Frequency freq = new Frequency(lotto);
+            LottoSingles lottoSingles = new LottoSingles();
 
             #region Singles
 
@@ -39,11 +23,11 @@ namespace LotteryCore
 
             // Creates new list and adds content from method for conversion to json
             List<Singles> s = new List<Singles>();
-            foreach (var itm in freq.FindSingles())
+            foreach (var itm in lottoSingles.FindSingles(parsedLotto))
             {
                 s.Add(new Singles
                 {
-                    First = itm.Number,
+                    First = itm.FirstNum,
                     Frequency = itm.Count
                 });
             }
@@ -61,6 +45,7 @@ namespace LotteryCore
 
             #region Pairs
 
+            NumberParsing freq = new NumberParsing();
             string pairJsonPath = $"{lotteryName}Pairs.json";
 
             List<Pairs> p = new List<Pairs>();
@@ -68,11 +53,11 @@ namespace LotteryCore
             // Instantiates frequency and processes the list only when needed immediately before building the object to
             // convert to json.
 
-            foreach (var itm in freq.FindPairs().ToList())
+            foreach (var itm in freq.FindPairs(parsedLotto).ToList())
             {
                 p.Add(new Pairs
                 {
-                    First = itm.Pair.FirstNum, // Order is Second, First, Frequency in output due to derived/base initialization order.
+                    First = itm.Pair.FirstNum, // Order is Second, First, NumberParsing in output due to derived/base initialization order.
                     Second = itm.Pair.SecondNum,
                     Frequency = itm.Count
                 });
@@ -95,7 +80,7 @@ namespace LotteryCore
 
             List<Triplets> t = new List<Triplets>();
 
-            foreach (var itm in freq.FindTrips().ToList())
+            foreach (var itm in freq.FindTrips(parsedLotto).ToList())
             {
                 t.Add(new Triplets
                 {
@@ -116,12 +101,7 @@ namespace LotteryCore
             #endregion Triplets
         }
 
-        public class LottoData
-        {
-            public string Date { get; set; }
 
-            public int[] Numbers { get; set; }
-        }
     }
 
     public class Singles
