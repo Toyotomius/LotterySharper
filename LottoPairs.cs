@@ -1,9 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LotteryCore.GetSetObjects;
 
 namespace LotteryCore
 {
+    internal class LottoPairs
+    {
+        public int FirstNum { get; set; }
+
+        public int SecondNum { get; set; }
+    }
+
     public class FindLottoPairs
     {
         public IEnumerable<LottoPairsCount> FindPairs((IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers) parsedLotto)

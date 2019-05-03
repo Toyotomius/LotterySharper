@@ -1,4 +1,5 @@
-﻿using LotteryCore.Interfaces;
+﻿using LotteryCore.GetSetObjects;
+using LotteryCore.Interfaces;
 
 namespace LotteryCore
 {
@@ -33,5 +34,7 @@ namespace LotteryCore
         {
             return new NumberParsing();
         }
+
+        
     }
 }

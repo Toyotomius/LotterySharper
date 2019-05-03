@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
+using LotteryCore.GetSetObjects;
 using LotteryCore.Interfaces;
 
 using Newtonsoft.Json.Linq;

@@ -1,8 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LotteryCore.GetSetObjects;
 
 namespace LotteryCore
 {
+    internal class LottoTriplets : LottoPairs
+    {
+        public int ThirdNum { get; set; }
+    }
+
     public class FindLottoTriplets
     {
         public IEnumerable<LottoTripletsCount> FindTrips((IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers) parsedLotto)
