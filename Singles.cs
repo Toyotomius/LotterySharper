@@ -1,6 +1,8 @@
-﻿namespace LotteryCore.GetSetObjects
+﻿using LotteryCore.Interfaces;
+
+namespace LotteryCore
 {
-    public class LottoSinglesCount
+    public class Singles : ISingles
     {
         public int First { get; set; }
 

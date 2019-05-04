@@ -1,9 +1,7 @@
 ﻿namespace LotteryCore.GetSetObjects
 {
-    public class LottoTripletsCount
+    public class Triplets : Pairs, ITriplets
     {
-        internal LottoTriplets Triplet { get; set; }
-
-        internal int Count { get; set; }
+        public int Third { get; set; }
     }
 }

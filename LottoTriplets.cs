@@ -1,38 +1,44 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using LotteryCore.GetSetObjects;
+using LotteryCore.Interfaces;
 
 namespace LotteryCore
 {
-    internal class LottoTriplets : LottoPairs
+    public class FindLottoTriplets : IFindLottoTriplets
     {
-        public int ThirdNum { get; set; }
-    }
+        private ILottoTripsJsonSerial _tripsJsonSerial;
 
-    public class FindLottoTriplets
-    {
-        public IEnumerable<LottoTripletsCount> FindTrips((IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers) parsedLotto)
+        public FindLottoTriplets(ILottoTripsJsonSerial tripsJsonSerial)
         {
-            List<LottoTriplets> trips =
+            _tripsJsonSerial = tripsJsonSerial;
+        }
+
+        public void FindTrips(string lotteryName, (IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers) parsedLotto)
+        {
+            List<Triplets> trips =
                 (from firstNum in parsedLotto.DistinctNumbers
                  from secondNum in parsedLotto.DistinctNumbers
                  from thirdNum in parsedLotto.DistinctNumbers
                  where firstNum.CompareTo(secondNum) < 0 && firstNum.CompareTo(thirdNum) < 0 && secondNum.CompareTo(thirdNum) < 0
-                 select new LottoTriplets { FirstNum = firstNum, SecondNum = secondNum, ThirdNum = thirdNum }).ToList();
+                 select new Triplets { First = firstNum, Second = secondNum, Third = thirdNum }).ToList();
 
-            IEnumerable<LottoTripletsCount> tripletList =
+            List<Triplets> tripletList =
                 (from l in parsedLotto.AllNumbers
                  from p in trips
-                 where l.Contains(p.FirstNum) && l.Contains(p.SecondNum) && l.Contains(p.ThirdNum)
+                 where l.Contains(p.First) && l.Contains(p.Second) && l.Contains(p.Third)
                  group l by p into g
                  orderby g.Count() descending
-                 select new LottoTripletsCount
+                 select new Triplets
                  {
-                     Triplet = g.Key,
-                     Count = g.Count()
-                 });
+                     First = g.Key.First,
+                     Second = g.Key.Second,
+                     Third = g.Key.Third,
+                     Frequency = g.Count()
+                 }).ToList();
 
-            return tripletList;
+            _tripsJsonSerial.TripsSerialize(lotteryName, tripletList);
         }
     }
 }

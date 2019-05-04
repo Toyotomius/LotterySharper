@@ -41,7 +41,6 @@ namespace LotteryCore
                 {
                     string lotteryName = $"{Path.GetFileNameWithoutExtension(lotteryInfo.LotteryFile[i])}";
                     JObject lotteryData = lotteryInfo.LotteryJObject[i];
-                    FileHandling fh = new FileHandling();
                     IMakeLottoList createLottoList = Factory.CreateLottoList();
                     List<ILottoData> lotto;
 
@@ -58,7 +57,14 @@ namespace LotteryCore
 
                     INumberParsing lottoNumberParser = Factory.CreateNumberParser();
                     var parsedLotto = lottoNumberParser.ParseLottoList(lotto);
-                    fh.FileOut(lotteryName, parsedLotto);
+
+                    ILottoSingles startSinglesChain = Factory.CreateLottoSingles();
+                    IFindLottoPairs startPairsChain = Factory.CreateLottoPairs();
+                    IFindLottoTriplets startTripletsChain = Factory.CreateLottoTriplets();
+
+                    startSinglesChain.FindSingles(lotteryName, parsedLotto);
+                    startPairsChain.FindPairs(lotteryName, parsedLotto);
+                    startTripletsChain.FindTrips(lotteryName, parsedLotto);
                 }
 
                 Console.WriteLine("Breakpoint");

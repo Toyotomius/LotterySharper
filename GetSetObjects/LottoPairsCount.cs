@@ -1,9 +1,7 @@
 ﻿namespace LotteryCore.GetSetObjects
 {
-    public class LottoPairsCount
+    public class Pairs : Singles, IPairs
     {
-        internal LottoPairs Pair { get; set; }
-
-        internal int Count { get; set; }
+        public int Second { get; set; }
     }
 }
