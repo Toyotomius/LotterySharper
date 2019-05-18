@@ -1,4 +1,6 @@
-﻿namespace LotteryCore.GetSetObjects
+﻿using LotteryCore.Interfaces;
+
+namespace LotteryCore.GetSetObjects
 {
     public class Pairs : Singles, IPairs
     {

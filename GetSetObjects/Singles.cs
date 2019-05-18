@@ -1,6 +1,6 @@
 ﻿using LotteryCore.Interfaces;
 
-namespace LotteryCore
+namespace LotteryCore.GetSetObjects
 {
     public class Singles : ISingles
     {

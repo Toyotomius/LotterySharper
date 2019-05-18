@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 using LotteryCore.Interfaces;
 
@@ -10,13 +11,10 @@ namespace LotteryCore
 {
     public class SetSettings : ISetSettings
     {
+        private ILogging _logger;
         private List<JObject> _lotteryJObject;
 
-        private List<string> LotteryFile { get; set; }
-
         private ISettings _settings;
-
-        private ILogging _logger;
 
         public SetSettings(ISettings settings, ILogging logger)
         {
@@ -24,9 +22,12 @@ namespace LotteryCore
             _logger = logger;
         }
 
-        public (List<string> LotteryFile, List<JObject> LotteryJObject) ApplySettings()
+        private List<string> LotteryFile { get; set; }
+
+        public async Task<(List<string> LotteryFile, List<JObject> LotteryJObject)> ApplySettingsAsync()
         {
-            JObject settingsFromFile = _settings.GetSettings();
+            Task<JObject> settingsFromFileTask = _settings.GetSettings();
+            JObject settingsFromFile = await settingsFromFileTask;
 
             //TODO: Check to see if a file has been added to.Ignore it if it hasn't been.
             // TODO: Clean up logfile at various points.

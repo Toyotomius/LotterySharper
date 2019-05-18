@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using LotteryCore.Interfaces;
 
@@ -11,11 +12,13 @@ namespace LotteryCore
 
         public IEnumerable<int> DistinctNumbers { get; set; } // Grabs just the distinct numbers in the list.
 
-        public (IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers) ParseLottoList(List<ILottoData> lotto)
+        public async Task<(IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers)> ParseLottoListAsync(List<ILottoData> lotto)
         {
-            AllNumbers = lotto.Select(a => a.Numbers);
-            DistinctNumbers = lotto.SelectMany(a => a.Numbers).Distinct();
-            return (AllNumbers, DistinctNumbers);
+            Task<(IEnumerable<int[]>, IEnumerable<int>)> task = Task.FromResult((AllNumbers = lotto.Select(a => a.Numbers),
+                DistinctNumbers = lotto.SelectMany(a => a.Numbers).Distinct()));
+
+            var results = await task;
+            return (results);
         }
 
         //TODOCompleted Optimization. Review later.

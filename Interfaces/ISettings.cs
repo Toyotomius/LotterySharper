@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Threading.Tasks;
+
+using Newtonsoft.Json.Linq;
 
 namespace LotteryCore.Interfaces
 {
     public interface ISettings
     {
-        JObject GetSettings();
+        Task<JObject> GetSettings();
     }
 }

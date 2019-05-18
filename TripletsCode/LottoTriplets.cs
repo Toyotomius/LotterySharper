@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using LotteryCore.GetSetObjects;
 using LotteryCore.Interfaces;
 
-namespace LotteryCore
+namespace LotteryCore.TripletsCode
 {
     public class FindLottoTriplets : IFindLottoTriplets
     {
@@ -15,8 +17,11 @@ namespace LotteryCore
             _tripsJsonSerial = tripsJsonSerial;
         }
 
-        public void FindTrips(string lotteryName, (IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers) parsedLotto)
+        public async Task FindTripsAsync(string lotteryName, (IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers) parsedLotto)
         {
+            Console.WriteLine(
+                $"{DateTimeOffset.Parse(DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")).ToString("MM/dd/yyyy hh:mm:ss.fff tt")}" +
+                $" : {lotteryName} Triplets Started");
             List<Triplets> trips =
                 (from firstNum in parsedLotto.DistinctNumbers
                  from secondNum in parsedLotto.DistinctNumbers
@@ -38,7 +43,7 @@ namespace LotteryCore
                      Frequency = g.Count()
                  }).ToList();
 
-            _tripsJsonSerial.TripsSerialize(lotteryName, tripletList);
+            await _tripsJsonSerial.TripsSerializeAsync(lotteryName, tripletList);
         }
     }
 }

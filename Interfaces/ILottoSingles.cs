@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LotteryCore.Interfaces
 {
-    public interface ILottoSingles
+    public interface IFindLottoSingles
     {
-        void FindSingles(string lotteryName,
+        Task FindSinglesAsync(string lotteryName,
             (IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers) parsedLotto);
     }
 }

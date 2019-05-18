@@ -7,6 +7,16 @@ using Quartz.Impl;
 
 namespace LotteryCore
 {
+    public class HelloJob : IJob
+    {
+        public async Task Execute(IJobExecutionContext context)
+        {
+            WebsiteScraping ws = new WebsiteScraping();
+            Console.WriteLine($"{DateTime.Now}  : Starting Scrape");
+            ws.Scrape();
+        }
+    }
+
     public class SchdTask
     {
         public async void Schedule()
@@ -26,16 +36,6 @@ namespace LotteryCore
 
             SchdTask schdtask = new SchdTask();
             await sched.ScheduleJob(job, trigger);
-        }
-    }
-
-    public class HelloJob : IJob
-    {
-        public async Task Execute(IJobExecutionContext context)
-        {
-            WebsiteScraping ws = new WebsiteScraping();
-            Console.WriteLine($"{DateTime.Now}  : Starting Scrape");
-            ws.Scrape();
         }
     }
 }

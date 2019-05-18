@@ -1,7 +1,9 @@
-﻿namespace LotteryCore.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace LotteryCore.Interfaces
 {
     public interface ILottoPairsFileOut
     {
-        void WriteFile(string lotteryName, string data);
+        Task WriteFileAsync(string lotteryName, string data);
     }
 }

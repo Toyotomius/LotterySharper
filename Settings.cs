@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 
 using LotteryCore.Interfaces;
 
@@ -38,11 +39,13 @@ namespace LotteryCore
         private JObject SettingsFromFile { get; set; }
 
         // Pulls settings from the config file.
-        public JObject GetSettings()
+        public async Task<JObject> GetSettings()
         {
-            ConfigContents = (File.ReadAllText("config.json"));
-            SettingsFromFile = JObject.Parse(_configContents);
-            return SettingsFromFile;
+            ConfigContents = File.ReadAllText("config.json");
+            Task<JObject> task = Task.FromResult(JObject.Parse(_configContents));
+            var settings = await task;
+
+            return settings;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using LotteryCore.GetSetObjects;
 
@@ -6,6 +7,6 @@ namespace LotteryCore.Interfaces
 {
     public interface ILottoPairsJsonSerial
     {
-        void PairsSerialize(string lotteryName, List<Pairs> pairsList);
+        Task PairsSerializeAsync(string lotteryName, List<Pairs> pairsList);
     }
 }

@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+using LotteryCore.GetSetObjects;
 
 namespace LotteryCore.Interfaces
 {
     public interface ILottoSinglesJsonSerial
     {
-        void SinglesSerialize(string lotteryName, List<Singles> singlesList);
+        Task SinglesSerializeAsync(string lotteryName, List<Singles> singlesList);
     }
 }

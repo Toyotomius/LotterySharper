@@ -1,18 +1,21 @@
 ﻿using LotteryCore.GetSetObjects;
 using LotteryCore.Interfaces;
+using LotteryCore.PairsCode;
+using LotteryCore.SinglesCode;
+using LotteryCore.TripletsCode;
 
 namespace LotteryCore
 {
     public static class Factory
     {
-        public static ISettings CreateSettings()
+        public static IFileOut CreateFileOut()
         {
-            return new Settings();
+            return new FileOut();
         }
 
-        public static ISetSettings SetNewSettings()
+        public static IListJsonSerializer CreateJsonSerializer()
         {
-            return new SetSettings(CreateSettings(), CreateLogger());
+            return new ListJsonSerializer();
         }
 
         public static ILogging CreateLogger()
@@ -30,24 +33,14 @@ namespace LotteryCore
             return new MakeLottoList();
         }
 
-        public static INumberParsing CreateNumberParser()
-        {
-            return new NumberParsing();
-        }
-
-        public static IListJsonSerializer CreateJsonSerializer()
-        {
-            return new ListJsonSerializer();
-        }
-
-        public static ILottoSingles CreateLottoSingles()
-        {
-            return new LottoSingles(CreateSinglesJSonSerial());
-        }
-
         public static IFindLottoPairs CreateLottoPairs()
         {
             return new FindLottoPairs(CreatePairsJsonSerial());
+        }
+
+        public static IFindLottoSingles CreateLottoSingles()
+        {
+            return new LottoSingles(CreateSinglesJSonSerial());
         }
 
         public static IFindLottoTriplets CreateLottoTriplets()
@@ -55,39 +48,9 @@ namespace LotteryCore
             return new FindLottoTriplets(CreateTripsJsonSerial());
         }
 
-        public static ISingles CreateSinglesList()
+        public static INumberParsing CreateNumberParser()
         {
-            return new Singles();
-        }
-
-        public static IPairs CreatePairsList()
-        {
-            return new Pairs();
-        }
-
-        public static ITriplets CreateTripletList()
-        {
-            return new Triplets();
-        }
-
-        public static ILottoSinglesJsonSerial CreateSinglesJSonSerial()
-        {
-            return new LottoSinglesJsonSerial(CreateJsonSerializer(), CreateSinglesFileOut());
-        }
-
-        public static IFileOut CreateFileOut()
-        {
-            return new FileOut();
-        }
-
-        public static ILottoSinglesFileOut CreateSinglesFileOut()
-        {
-            return new LottoSinglesFileOut(CreateFileOut());
-        }
-
-        public static ILottoPairsJsonSerial CreatePairsJsonSerial()
-        {
-            return new LottoPairsJsonSerial(CreateJsonSerializer(), CreatePairsFileOut());
+            return new NumberParsing();
         }
 
         public static ILottoPairsFileOut CreatePairsFileOut()
@@ -95,14 +58,60 @@ namespace LotteryCore
             return new LottoPairsFileOut(CreateFileOut());
         }
 
-        public static ILottoTripsJsonSerial CreateTripsJsonSerial()
+        public static ILottoPairsJsonSerial CreatePairsJsonSerial()
         {
-            return new LottoTripsJsonSerial(CreateJsonSerializer(), CreateTripsFileOut());
+            return new LottoPairsJsonSerial(CreateJsonSerializer(), CreatePairsFileOut());
+        }
+
+        public static IPairs CreatePairsList()
+        {
+            return new Pairs();
+        }
+
+        public static ISettings CreateSettings()
+        {
+            return new Settings();
+        }
+
+        public static ILottoSinglesFileOut CreateSinglesFileOut()
+        {
+            return new LottoSinglesFileOut(CreateFileOut());
+        }
+
+        public static ILottoSinglesJsonSerial CreateSinglesJSonSerial()
+        {
+            return new LottoSinglesJsonSerial(CreateJsonSerializer(), CreateSinglesFileOut());
+        }
+
+        public static ISingles CreateSinglesList()
+        {
+            return new Singles();
+        }
+
+        public static IBeginLottoCalculations CreateStartLottoLists()
+        {
+            return new BeginLottoCalculations(CreateNumberParser(), CreateLottoSingles(),
+                                                CreateLottoPairs(), CreateLottoTriplets());
+        }
+
+        public static ITriplets CreateTripletList()
+        {
+            return new Triplets();
         }
 
         public static ILottoTripsFileOut CreateTripsFileOut()
         {
             return new LottoTripsFileOut(CreateFileOut());
+        }
+
+        public static ILottoTripsJsonSerial CreateTripsJsonSerial()
+        {
+            return new LottoTripsJsonSerial(CreateJsonSerializer(), CreateTripsFileOut());
+        }
+
+        public static ISetSettings SetNewSettings()
+        {
+            return new SetSettings(CreateSettings(), CreateLogger());
         }
     }
 }

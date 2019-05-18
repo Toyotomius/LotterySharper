@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using LotteryCore.GetSetObjects;
 using LotteryCore.Interfaces;
 
-namespace LotteryCore
+namespace LotteryCore.PairsCode
 {
     public class FindLottoPairs : IFindLottoPairs
     {
@@ -15,8 +17,11 @@ namespace LotteryCore
             _pairsJsonSerial = pairsJsonSerial;
         }
 
-        public void FindPairs(string lotteryName, (IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers) parsedLotto)
+        public async Task FindPairsAsync(string lotteryName, (IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers) parsedLotto)
         {
+            Console.WriteLine(
+                $"{DateTimeOffset.Parse(DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")).ToString("MM/dd/yyyy hh:mm:ss.fff tt")}" +
+                $" : {lotteryName} Pairs Started");
             List<Pairs> pairs = (
                 from firstNum in parsedLotto.DistinctNumbers
                 from secondNum in parsedLotto.DistinctNumbers
@@ -45,7 +50,7 @@ namespace LotteryCore
 
             // Don't know effect if more than one thing needs it. Does it do it every time where a list would be faster?
 
-            _pairsJsonSerial.PairsSerialize(lotteryName, pairList);
+            await _pairsJsonSerial.PairsSerializeAsync(lotteryName, pairList);
         }
     }
 }

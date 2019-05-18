@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using LotteryCore.GetSetObjects;
 using LotteryCore.Interfaces;
 
-namespace LotteryCore
+namespace LotteryCore.PairsCode
 {
     public class LottoPairsJsonSerial : ILottoPairsJsonSerial
     {
-        private IListJsonSerializer _serializer;
-
         private ILottoPairsFileOut _pairsFileOut;
+        private IListJsonSerializer _serializer;
 
         public LottoPairsJsonSerial(IListJsonSerializer serializer, ILottoPairsFileOut pairsFileOut)
         {
@@ -17,11 +17,11 @@ namespace LotteryCore
             _pairsFileOut = pairsFileOut;
         }
 
-        public void PairsSerialize(string lotteryName, List<Pairs> pairsList)
+        public async Task PairsSerializeAsync(string lotteryName, List<Pairs> pairsList)
         {
             string pairsJson = _serializer.JSerialize(pairsList);
 
-            _pairsFileOut.WriteFile(lotteryName, pairsJson);
+            await _pairsFileOut.WriteFileAsync(lotteryName, pairsJson);
         }
     }
 }

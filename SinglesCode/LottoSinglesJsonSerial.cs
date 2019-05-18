@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using LotteryCore.Interfaces;
 
-namespace LotteryCore
+namespace LotteryCore.SinglesCode
 {
     public class LottoSinglesJsonSerial : ILottoSinglesJsonSerial
     {
@@ -16,11 +17,11 @@ namespace LotteryCore
             _singlesFileOut = singlesFileOut;
         }
 
-        public void SinglesSerialize(string lotteryName, List<Singles> singlesList)
+        public async Task SinglesSerializeAsync(string lotteryName, List<GetSetObjects.Singles> singlesList)
         {
             string singlesJson = _serializer.JSerialize(singlesList);
 
-            _singlesFileOut.WriteFile(lotteryName, singlesJson);
+            await _singlesFileOut.WriteFileAsync(lotteryName, singlesJson);
         }
     }
 }
