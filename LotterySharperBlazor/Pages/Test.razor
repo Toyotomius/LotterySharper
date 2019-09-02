@@ -1,11 +1,55 @@
-﻿@page "/test"
+﻿@inject HttpClient Http
+@using System.Linq;
+@page "/test"
 <h1>This is a Test</h1>
-<p>Current count: @countTest</p>
-<button class="btn btn-primary" @onclick="DeincrementCount">Click me</button>
-@code{
-    int countTest = 1000;
-    void DeincrementCount()
+<p>Table?</p>
+@if (lotto == null)
+{
+    <p><em>Why null?</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Winning Numbers</th>
+                <th>Bonus</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var itm in lotto.Lotto649)
+            {
+                <tr>
+                    <td>@itm.Date</td>
+                    <td>@itm.Numbers[0], @itm.Numbers[1], @itm.Numbers[2], @itm.Numbers[3], @itm.Numbers[4], @itm.Numbers[5] </td>
+                    <td>@itm.Bonus</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    Lotto lotto;
+
+    protected override async Task OnInitializedAsync()
     {
-        countTest -= 5;
+
+        lotto = await Http.GetJsonAsync<Lotto>("sample-data/Lotto649.json");
+
+    }
+
+    public class Lotto
+    {
+        public List<LottoData> Lotto649 { get; set; }
+
+    }
+    public class LottoData
+    {
+        public string Date { get; set; }
+        public List<int> Numbers { get; set; }
+        public int Bonus { get; set; }
     }
 }
