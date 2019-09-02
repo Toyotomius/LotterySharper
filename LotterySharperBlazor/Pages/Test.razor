@@ -1,0 +1,11 @@
+﻿@page "/test"
+<h1>This is a Test</h1>
+<p>Current count: @countTest</p>
+<button class="btn btn-primary" @onclick="DeincrementCount">Click me</button>
+@code{
+    int countTest = 1000;
+    void DeincrementCount()
+    {
+        countTest -= 5;
+    }
+}
