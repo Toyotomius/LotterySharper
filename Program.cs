@@ -1,34 +1,63 @@
-﻿using LotteryCore.Interfaces;
+﻿using LotteryCoreConsole.Lottery_Calculation.Interfaces;
+using LotteryCoreConsole.ScrapeAndQuartz.QuartzScheduling.Lotto649;
+using LotteryCoreConsole.ScrapeAndQuartz.QuartzScheduling.LottoMax;
+using LotteryCoreConsole.ScrapeAndQuartz.QuartzScheduling.USPowerball;
+using Newtonsoft.Json.Linq;
+using Quartz;
+using Quartz.Impl;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
 
-namespace LotteryCore
+namespace LotteryCoreConsole
 {
     internal static class Program
     {
-        private static async System.Threading.Tasks.Task Main()
+        private static async Task Main()
         {
-            //SchdTask schd = new SchdTask();
-            //schd.Schedule();
-            //while (true)
-            //{
-            //}
+            IGetSettings set = Factory.CreateGetSettings();
+            (List<string> lotteryFile, List<JObject> lotteryJObject, var scrapeWebsites) =
+                await set.RetrieveSettings();
+            (List<string> LotteryFile, List<JObject> LotteryJObject) lotteryInfo = (lotteryFile, lotteryJObject);
 
-            //WebsiteScraping ws = new WebsiteScraping();
-            //ws.Scrape();
+            IValidateLottoLists validateLists = Factory.CreateValidateLottoLists();
+            await validateLists.ValidateLotteryLists(lotteryInfo);
+
+            // TODO: Remove delay. Just here for debugging.
+            await Task.Delay(8000);
+
+            // If true: Uses Quartz.net to schedule tasks.
+            // TODO: Check against settings file to see which website scraping tasks need to be scheduled.
+            if (scrapeWebsites)
+            {
+                Console.WriteLine("ScrapeWebsites = True");
+
+                var props = new NameValueCollection
+                {
+                    {"quartz.serializer.type", "binary" }
+                };
+                var quartzFactory = new StdSchedulerFactory(props);
+
+                IScheduler scheduler = await quartzFactory.GetScheduler();
+                await scheduler.Start();
+
+                await Lotto649Schedule.Lotto649Scheduler(scheduler);
+                await LottoMaxSchedule.LottoMaxScheduler(scheduler);
+                await USPowerballSchedule.USPowerballScheduler(scheduler);
+            }
 
             //Console.ReadKey();
 
-            // Temporarily commented out while working on other classes & methods.
-
-            IBeginLottoCalculations beginLottoCalculations = Factory.CreateStartLottoLists();
-            await beginLottoCalculations.StartLottoListsAsync();
-
-            //    System.Threading.Thread.Sleep(30000);
-            //}
+            while (true)
+            {
+            }
         }
     }
 }
-
+// The below are aimed for the addition of the web app.
+// TODO: Check to see if a file has been added to.Ignore it if it hasn't been.
+// TODO: Clean up logfile at various points.
 // TODO: Dependency Injection.
 // TODO: Sanity checks. All the sanity. It's currently without any ability to remain sane.
 // TODO: Add some sort of ability to pick out frequency based on a range of dates.
-// TODOCompleted: Set up a while:true as a test with a decent sleep for on-the-fly settings change with a new lotto file.
