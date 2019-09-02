@@ -1,10 +1,10 @@
-﻿using LotteryCoreConsole.Lottery_Calculation.GetSetObjects;
-using LotteryCoreConsole.Lottery_Calculation.Interfaces;
+﻿using LotterySharper.LotteryCalculation.Interfaces;
+using LotterySharper.LotteryCalculation.Properties;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LotteryCoreConsole.Lottery_Calculation
+namespace LotterySharper.LotteryCalculation
 {
     public class MakeLottoList : IMakeLottoList
     {
@@ -17,11 +17,11 @@ namespace LotteryCoreConsole.Lottery_Calculation
             for (var i = 0; i < lotteryData[lotteryName].Count(); i++)
             {
                 _lottoData.Add(new LottoData
-                {
-                    Date = lotteryData[lotteryName][i]["Date"].ToString(),
-                    Numbers = lotteryData[lotteryName][i]["Numbers"].Select(x => (int)x).ToArray(),
-                    Bonus = lotteryData[lotteryName][i]["Bonus"].ToObject<int>()
-                });
+                    {
+                        Date = lotteryData[lotteryName][i]["Date"].ToString(),
+                        Numbers = lotteryData[lotteryName][i]["Numbers"].Select(x => (int)x).ToArray(),
+                        Bonus = lotteryData[lotteryName][i]["Bonus"].ToObject<int>()
+                    });
             }
 
             return _lottoData;

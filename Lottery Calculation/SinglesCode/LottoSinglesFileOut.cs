@@ -1,8 +1,8 @@
-﻿using System;
+﻿using LotterySharper.LotteryCalculation.Interfaces;
+using System;
 using System.Threading.Tasks;
-using LotteryCoreConsole.Lottery_Calculation.Interfaces;
 
-namespace LotteryCoreConsole.Lottery_Calculation.SinglesCode
+namespace LotterySharper.LotteryCalculation.SinglesCode
 {
     public class LottoSinglesFileOut : ILottoSinglesFileOut
     {
@@ -18,8 +18,7 @@ namespace LotteryCoreConsole.Lottery_Calculation.SinglesCode
             string filePath = $"./Lottery Results/{lotteryName}/Singles.json";
 
             await _fileOut.WriteFile(filePath, data);
-            Console.WriteLine(
-                $"{DateTimeOffset.Parse(DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")).ToString("MM/dd/yyyy hh:mm:ss.fff tt")}" +
+            Console.WriteLine($"{DateTimeOffset.Parse(DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")).ToString("MM/dd/yyyy hh:mm:ss.fff tt")}" +
                 $" : {lotteryName} Singles Finished");
         }
     }

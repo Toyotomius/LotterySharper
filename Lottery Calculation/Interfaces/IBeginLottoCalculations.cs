@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using LotterySharper.LotteryCalculation.Properties;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using LotteryCoreConsole.Lottery_Calculation.GetSetObjects;
 
-namespace LotteryCoreConsole.Lottery_Calculation.Interfaces
+namespace LotterySharper.LotteryCalculation.Interfaces
 {
     public interface IBeginLottoCalculations
     {

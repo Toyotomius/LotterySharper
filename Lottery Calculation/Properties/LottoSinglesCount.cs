@@ -1,4 +1,4 @@
-﻿namespace LotteryCoreConsole.Lottery_Calculation.GetSetObjects
+﻿namespace LotterySharper.LotteryCalculation.Properties
 {
     public class LottoSinglesCount
     {

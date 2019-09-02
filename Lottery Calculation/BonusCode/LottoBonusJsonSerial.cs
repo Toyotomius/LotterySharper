@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using LotterySharper.LotteryCalculation.Interfaces;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using LotteryCoreConsole.Lottery_Calculation.Interfaces;
 
-namespace LotteryCoreConsole.Lottery_Calculation.SinglesCode
+namespace LotterySharper.LotteryCalculation.BonusCode
 {
     public class LottoBonusJsonSerial : ILottoBonusJsonSerial
     {
-        private readonly IListJsonSerializer _serializer;
-
         private readonly ILottoBonusFileOut _bonusFileOut;
+        private readonly IListJsonSerializer _serializer;
 
         public LottoBonusJsonSerial(IListJsonSerializer serializer, ILottoBonusFileOut bonusFileOut)
         {

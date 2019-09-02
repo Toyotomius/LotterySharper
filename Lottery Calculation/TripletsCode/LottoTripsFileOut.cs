@@ -1,8 +1,8 @@
-﻿using System;
+﻿using LotterySharper.LotteryCalculation.Interfaces;
+using System;
 using System.Threading.Tasks;
-using LotteryCoreConsole.Lottery_Calculation.Interfaces;
 
-namespace LotteryCoreConsole.Lottery_Calculation.TripletsCode
+namespace LotterySharper.LotteryCalculation.TripletsCode
 {
     public class LottoTripsFileOut : ILottoTripsFileOut
     {
@@ -17,8 +17,7 @@ namespace LotteryCoreConsole.Lottery_Calculation.TripletsCode
         {
             string path = $@"./Lottery Results/{lotteryName}/Triplets.json";
             await _fileOut.WriteFile(path, data);
-            Console.WriteLine(
-                $"{DateTimeOffset.Parse(DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")).ToString("MM/dd/yyyy hh:mm:ss.fff tt")}" +
+            Console.WriteLine($"{DateTimeOffset.Parse(DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")).ToString("MM/dd/yyyy hh:mm:ss.fff tt")}" +
                 $" : {lotteryName} Triplets Finished");
         }
     }

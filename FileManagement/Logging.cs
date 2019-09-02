@@ -1,7 +1,7 @@
-﻿using System.IO;
-using LotteryCoreConsole.Lottery_Calculation.Interfaces;
+﻿using LotterySharper.LotteryCalculation.Interfaces;
+using System.IO;
 
-namespace LotteryCoreConsole.FileManagement
+namespace LotterySharper.FileManagement
 {
     public class Logging : ILogging
     {

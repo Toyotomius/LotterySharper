@@ -1,7 +1,7 @@
+using LotterySharper.ScrapeAndQuartz.WebsiteScraping.Interfaces;
 using System;
-using LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping.Interfaces;
 
-namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping
+namespace LotterySharper.ScrapeAndQuartz.WebsiteScraping
 {
     public class AfterLottoWritten : IAfterLottoWritten
     {

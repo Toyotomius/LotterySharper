@@ -1,14 +1,24 @@
-﻿using LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping;
-using LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping.Interfaces;
+﻿using LotterySharper.ScrapeAndQuartz.WebsiteScraping;
+using LotterySharper.ScrapeAndQuartz.WebsiteScraping.Interfaces;
 using System;
 
-namespace LotteryCoreConsole.ScrapeAndQuartz
+namespace LotterySharper.ScrapeAndQuartz
 {
     /// <summary>
     ///     Factory for creating all instances needed in the webscraping / Quartz portion of the program.
     /// </summary>
     public static class ScrapeAndQuartzFactory
     {
+        private static Random CreateRandom()
+        {
+            return new Random();
+        }
+
+        private static IUserAgentPicker CreateUserAgentPicker()
+        {
+            return new UserAgentPicker(CreateRandom());
+        }
+
         public static IAfterLottoWritten CreateAfterLottoWritten()
         {
             return new AfterLottoWritten(CreateBeginRecalculation());
@@ -26,22 +36,28 @@ namespace LotteryCoreConsole.ScrapeAndQuartz
 
         public static ILotteryScrape CreateLotto649Scrape()
         {
-            return new Lotto649Scrape(CreateWebsiteScraping(), CreateFormatNewLotteryResult(),
-                CreateWriteNewLottoResult(), CreateAfterLottoWritten());
+            return new Lotto649Scrape(CreateWebsiteScraping(),
+                                      CreateFormatNewLotteryResult(),
+                                      CreateWriteNewLottoResult(),
+                                      CreateAfterLottoWritten());
         }
 
         public static ILotteryScrape CreateLottoMaxScrape()
         {
-            return new LottoMaxScrape(CreateWebsiteScraping(), CreateFormatNewLotteryResult(),
-                CreateWriteNewLottoResult(), CreateAfterLottoWritten());
+            return new LottoMaxScrape(CreateWebsiteScraping(),
+                                      CreateFormatNewLotteryResult(),
+                                      CreateWriteNewLottoResult(),
+                                      CreateAfterLottoWritten());
         }
+
         public static ILotteryScrape CreatePowerballScrape()
         {
             return new PowerballScrape(CreateFormatNewLotteryResult(),
-                CreateWriteNewLottoResult(), CreateAfterLottoWritten());
+                                       CreateWriteNewLottoResult(),
+                                       CreateAfterLottoWritten());
         }
 
-            public static IWebsiteScraping CreateWebsiteScraping()
+        public static IWebsiteScraping CreateWebsiteScraping()
         {
             return new WebsiteScraping.WebsiteScraping(CreateUserAgentPicker());
         }
@@ -54,16 +70,6 @@ namespace LotteryCoreConsole.ScrapeAndQuartz
         public static IWriteNewLottoResult CreateWriteNewLottoResult()
         {
             return new WriteNewLottoResult();
-        }
-
-        private static Random CreateRandom()
-        {
-            return new Random();
-        }
-
-        private static IUserAgentPicker CreateUserAgentPicker()
-        {
-            return new UserAgentPicker(CreateRandom());
         }
     }
 }

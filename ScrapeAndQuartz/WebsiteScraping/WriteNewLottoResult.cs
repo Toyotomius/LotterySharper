@@ -1,22 +1,33 @@
-﻿using System;
+﻿using LotterySharper.FileManagement;
+using LotterySharper.ScrapeAndQuartz.WebsiteScraping.Interfaces;
+using System;
 using System.IO;
 using System.Threading.Tasks;
-using LotteryCoreConsole.FileManagement;
-using LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping.Interfaces;
 
-namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping
+namespace LotterySharper.ScrapeAndQuartz.WebsiteScraping
 {
     public class LottoEventArgs : EventArgs
     {
-        public string LotteryName { get; set; }
         public string LotteryData { get; set; }
+
+        public string LotteryName { get; set; }
     }
 
     public class WriteNewLottoResult : FileOut, IWriteNewLottoResult
     {
-        private string _contents = "";
+        private string _contents = string.Empty;
 
         public event EventHandler<LottoEventArgs> NewLotteryResultsWritten;
+
+        /// <summary>
+        ///     Event to update the frequency result data.
+        /// </summary>
+        protected void OnNewResultsWritten(string lotteryName, string newFile)
+        {
+            NewLotteryResultsWritten?.Invoke(this,
+                                             new LottoEventArgs
+            { LotteryName = lotteryName, LotteryData = newFile });
+        }
 
         /// <summary>
         ///     Takes the new scraped lottery data, inserts it into the existing file at the top and writes the new file.
@@ -41,14 +52,6 @@ namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping
 
             // Raises event after the writing is finished to update the singles, pairs & triplets data.
             OnNewResultsWritten(lotteryName, newFile);
-        }
-
-        /// <summary>
-        ///     Event to update the frequency result data.
-        /// </summary>
-        protected void OnNewResultsWritten(string lotteryName, string newFile)
-        {
-            NewLotteryResultsWritten?.Invoke(this, new LottoEventArgs {LotteryName = lotteryName, LotteryData = newFile});
         }
     }
 }

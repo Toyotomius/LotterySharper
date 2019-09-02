@@ -1,9 +1,9 @@
-﻿using LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping.Interfaces;
+﻿using LotterySharper.ScrapeAndQuartz.WebsiteScraping.Interfaces;
 using Quartz;
 using System;
 using System.Threading.Tasks;
 
-namespace LotteryCoreConsole.ScrapeAndQuartz.QuartzScheduling.USPowerball
+namespace LotterySharper.ScrapeAndQuartz.QuartzScheduling.USPowerball
 {
     /// <summary>
     /// Job creation for US Powerball to be executed by Quartz when triggered.

@@ -1,11 +1,11 @@
-﻿using LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping.Interfaces;
+﻿using LotterySharper.ScrapeAndQuartz.WebsiteScraping.Interfaces;
 using Quartz;
 using Quartz.Impl;
 using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 
-namespace LotteryCoreConsole.ScrapeAndQuartz.QuartzScheduling
+namespace LotterySharper.ScrapeAndQuartz.QuartzScheduling
 {
     public class HelloJob : IJob
     {
@@ -22,12 +22,15 @@ namespace LotteryCoreConsole.ScrapeAndQuartz.QuartzScheduling
         public async void Schedule()
         {
             IJobDetail job = JobBuilder.Create<HelloJob>().WithIdentity("myJob", "group1").Build();
-            ITrigger trigger = TriggerBuilder.Create().WithIdentity("test", "group1")
-                .WithCronSchedule("0/30 * * * * ?").ForJob("myJob", "group1").Build();
+            ITrigger trigger = TriggerBuilder.Create()
+                .WithIdentity("test", "group1")
+                .WithCronSchedule("0/30 * * * * ?")
+                .ForJob("myJob", "group1")
+                .Build();
 
             var props = new NameValueCollection
             {
-                {"quartz.serializer.type", "binary"}
+                { "quartz.serializer.type", "binary" }
             };
             var factory = new StdSchedulerFactory(props);
 

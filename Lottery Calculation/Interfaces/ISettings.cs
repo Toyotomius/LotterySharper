@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
 
-namespace LotteryCoreConsole.Lottery_Calculation.Interfaces
+namespace LotterySharper.LotteryCalculation.Interfaces
 {
     public interface ISettings
     {

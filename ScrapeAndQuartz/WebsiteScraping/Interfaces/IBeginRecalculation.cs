@@ -1,4 +1,4 @@
-﻿namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping.Interfaces
+﻿namespace LotterySharper.ScrapeAndQuartz.WebsiteScraping.Interfaces
 {
     public interface IBeginRecalculation
     {

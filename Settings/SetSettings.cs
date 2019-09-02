@@ -1,18 +1,18 @@
-﻿using System;
+﻿using LotterySharper.LotteryCalculation.Interfaces;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using LotteryCoreConsole.Lottery_Calculation.Interfaces;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
-namespace LotteryCoreConsole.Settings
+namespace LotterySharper.Settings
 {
     public class SetSettings : ISetSettings
     {
         private readonly ILogging _logger;
-        private readonly ISettings _settings;
         private List<JObject> _lotteryJObject;
+        private readonly ISettings _settings;
 
         public SetSettings(ISettings settings, ILogging logger)
         {
@@ -36,10 +36,11 @@ namespace LotteryCoreConsole.Settings
 
             // Checks for True/False for scraping websites on first run. If true, sets up Quartz timers to scrape new
             // winning numbers automatically.
-            var scrapeWebsites = settingsFromFile["ScrapeLotteryWebsites"].ToObject<bool>();
+            bool scrapeWebsites = settingsFromFile["ScrapeLotteryWebsites"].ToObject<bool>();
 
             // Takes each item from the array of json lottery files and adds it to a list
-            foreach (JToken itm in settingsFromFile["LotteryMasterFiles"]) LotteryFile.Add(itm.ToString());
+            foreach (JToken itm in settingsFromFile["LotteryMasterFiles"])
+                LotteryFile.Add(itm.ToString());
 
             // Descending for loop to allow for removing any files that are not present while logging such.
             for (int i = LotteryFile.Count - 1; i >= 0; i--)
@@ -47,20 +48,18 @@ namespace LotteryCoreConsole.Settings
                 {
                     // tries to create list of json objects from the contents of the file from config
                     _lotteryJObject.Add(JObject.Parse(File.ReadAllText($"./Data Files/{LotteryFile[i]}")));
-                }
-                catch (Exception) when (!File.Exists($"./Data Files/{LotteryFile[i]}"))
+                } catch (Exception) when (!File.Exists($"./Data Files/{LotteryFile[i]}"))
                 {
                     _logger.Log($"{DateTime.Now} : " +
-                                $"File \"{LotteryFile[i]}\" Does Not Exist. Verify the folder location & is correctly named in the config.\n" +
-                                "    * Check the config.json file for proper format.");
+                        $"File \"{LotteryFile[i]}\" Does Not Exist. Verify the folder location & is correctly named in the config.\n" +
+                        "    * Check the config.json file for proper format.");
 
                     LotteryFile.Remove(LotteryFile[i]);
-                }
-                catch (JsonReaderException)
+                } catch (JsonReaderException)
                 {
                     _logger.Log($"{DateTime.Now} : " +
-                                $"File \"{LotteryFile[i]}\" Is not a valid Json file.\n" +
-                                "    * Check the config.json file for proper format.");
+                        $"File \"{LotteryFile[i]}\" Is not a valid Json file.\n" +
+                        "    * Check the config.json file for proper format.");
                     LotteryFile.Remove(LotteryFile[i]);
                 }
 

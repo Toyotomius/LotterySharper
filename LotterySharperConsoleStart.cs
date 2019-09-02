@@ -1,7 +1,7 @@
-﻿using LotteryCoreConsole.Lottery_Calculation.Interfaces;
-using LotteryCoreConsole.ScrapeAndQuartz.QuartzScheduling.Lotto649;
-using LotteryCoreConsole.ScrapeAndQuartz.QuartzScheduling.LottoMax;
-using LotteryCoreConsole.ScrapeAndQuartz.QuartzScheduling.USPowerball;
+﻿using LotterySharper.LotteryCalculation.Interfaces;
+using LotterySharper.ScrapeAndQuartz.QuartzScheduling.Lotto649;
+using LotterySharper.ScrapeAndQuartz.QuartzScheduling.LottoMax;
+using LotterySharper.ScrapeAndQuartz.QuartzScheduling.USPowerball;
 using Newtonsoft.Json.Linq;
 using Quartz;
 using Quartz.Impl;
@@ -10,9 +10,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 
-namespace LotteryCoreConsole
+namespace LotterySharper
 {
-    internal static class Program
+    internal static class LotterySharperConsoleStart
     {
         private static async Task Main()
         {
@@ -35,7 +35,7 @@ namespace LotteryCoreConsole
 
                 var props = new NameValueCollection
                 {
-                    {"quartz.serializer.type", "binary" }
+                    { "quartz.serializer.type", "binary" }
                 };
                 var quartzFactory = new StdSchedulerFactory(props);
 
@@ -55,6 +55,7 @@ namespace LotteryCoreConsole
         }
     }
 }
+
 // The below are aimed for the addition of the web app.
 // TODO: Check to see if a file has been added to.Ignore it if it hasn't been.
 // TODO: Clean up logfile at various points.

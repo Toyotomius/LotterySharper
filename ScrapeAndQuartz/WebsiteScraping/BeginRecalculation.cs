@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using LotteryCoreConsole.Lottery_Calculation.Interfaces;
-using LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping.Interfaces;
+﻿using LotterySharper.LotteryCalculation.Interfaces;
+using LotterySharper.ScrapeAndQuartz.WebsiteScraping.Interfaces;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
-namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping
+namespace LotterySharper.ScrapeAndQuartz.WebsiteScraping
 {
     public class BeginRecalculation : IBeginRecalculation
     {
@@ -25,10 +25,10 @@ namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping
         /// <param name="lotteryJsonString">String in Json format from the lottery website scrape</param>
         public void PrepareNewCalcDataAsync(string lotteryName, string lotteryJsonString)
         {
-            List<string> lotteryFile = new List<string> {lotteryName};
+            var lotteryFile = new List<string> { lotteryName };
 
             JObject lotteryJObject = JObject.Parse(lotteryJsonString);
-            List<JObject> jObjectList = new List<JObject> {lotteryJObject};
+            var jObjectList = new List<JObject> { lotteryJObject };
             (List<string> lotteryFile, List<JObject> lotteryJObject) lotteryInfo = (lotteryFile, jObjectList);
 
             _validateLottoList.ValidateLotteryLists(lotteryInfo);

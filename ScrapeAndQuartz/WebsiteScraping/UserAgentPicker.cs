@@ -1,9 +1,9 @@
-﻿using System;
+﻿using LotterySharper.ScrapeAndQuartz.WebsiteScraping.Interfaces;
+using System;
 using System.IO;
 using System.Threading.Tasks;
-using LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping.Interfaces;
 
-namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping
+namespace LotterySharper.ScrapeAndQuartz.WebsiteScraping
 {
     public class UserAgentPicker : IUserAgentPicker
     {

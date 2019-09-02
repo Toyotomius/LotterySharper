@@ -1,9 +1,9 @@
-﻿using LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping.Interfaces;
+﻿using LotterySharper.ScrapeAndQuartz.WebsiteScraping.Interfaces;
 using Quartz;
 using System;
 using System.Threading.Tasks;
 
-namespace LotteryCoreConsole.ScrapeAndQuartz.QuartzScheduling.Lotto649
+namespace LotterySharper.ScrapeAndQuartz.QuartzScheduling.Lotto649
 {
     /// <summary>
     /// Job creation for Lotto649 to be executed by Quartz when triggered.

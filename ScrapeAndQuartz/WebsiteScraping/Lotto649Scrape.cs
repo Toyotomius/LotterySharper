@@ -1,10 +1,10 @@
 ﻿using HtmlAgilityPack;
-using LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping.Interfaces;
+using LotterySharper.ScrapeAndQuartz.WebsiteScraping.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping
+namespace LotterySharper.ScrapeAndQuartz.WebsiteScraping
 {
     /// <summary>
     ///     Scrapes the Atlantic Lottery Corporation Website @ https://www.alc.ca/content/alc/en/winning-numbers.html for the
@@ -24,8 +24,10 @@ namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping
         /// <param name="websiteScraping"></param>
         /// <param name="formatNewLotteryResult"></param>
         /// <param name="writeNewLottoResult"></param>
-        public Lotto649Scrape(IWebsiteScraping websiteScraping, IFormatNewLotteryResult formatNewLotteryResult,
-            IWriteNewLottoResult writeNewLottoResult, IAfterLottoWritten afterLottoWritten)
+        public Lotto649Scrape(IWebsiteScraping websiteScraping,
+                              IFormatNewLotteryResult formatNewLotteryResult,
+                              IWriteNewLottoResult writeNewLottoResult,
+                              IAfterLottoWritten afterLottoWritten)
         {
             _websiteScraping = websiteScraping;
             _formatNewLotteryResult = formatNewLotteryResult;
@@ -40,7 +42,7 @@ namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping
         public async Task ScrapeLotteryAsync()
         {
             var lotteryUrl = "http://localhost:8000/test.htm";
-            var source = await _websiteScraping.RetrievePageSource(lotteryUrl).ConfigureAwait(false);
+            string source = await _websiteScraping.RetrievePageSource(lotteryUrl).ConfigureAwait(false);
             var lotteryWebpage = new HtmlDocument();
             lotteryWebpage.LoadHtml(source);
 
@@ -50,25 +52,25 @@ namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping
             var newLottoNumList = new List<string>();
 
             // Create a temporary list to store the lottery numbers.
-            var tempList = lotto649.Descendants("li").Select(x => x.InnerText).ToList();
+            List<string> tempList = lotto649.Descendants("li").Select(x => x.InnerText).ToList();
 
             // Temporary list is then used to remove any leading 0s the website may have used. Json doesn't like leading 0s on numbers (fuck 'im).
             // Also removes the last number (bonus number) and separates it out into a new variable.
 
-            foreach (var itm in tempList)
+            foreach (string itm in tempList)
             {
-                var newItm = itm.Replace(itm, itm.TrimStart(new[] { '0' }));
+                string newItm = itm.Replace(itm, itm.TrimStart(new[] { '0' }));
                 newLottoNumList.Add(newItm);
             }
-            var bonusNum = newLottoNumList.Last();
+            string bonusNum = newLottoNumList.Last();
             newLottoNumList.Remove(bonusNum);
 
-            var lotto649DrawNums = string.Join(", ", newLottoNumList);
+            string lotto649DrawNums = string.Join(", ", newLottoNumList);
 
-            var newResults = await _formatNewLotteryResult.FormatResult(lotto649DrawNums, bonusNum);
+            string newResults = await _formatNewLotteryResult.FormatResult(lotto649DrawNums, bonusNum);
 
             _writeNewResult.NewLotteryResultsWritten += _afterLottoWritten.OnResultsWritten;
-            var writeTask = Task.Run(() => _writeNewResult.WriteNewResults("Lotto649", newResults));
+            Task writeTask = Task.Run(() => _writeNewResult.WriteNewResults("Lotto649", newResults));
             await writeTask;
         }
     }

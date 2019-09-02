@@ -1,11 +1,11 @@
-﻿using System;
+﻿using LotterySharper.LotteryCalculation.Interfaces;
+using LotterySharper.LotteryCalculation.Properties;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using LotteryCoreConsole.Lottery_Calculation.GetSetObjects;
-using LotteryCoreConsole.Lottery_Calculation.Interfaces;
 
-namespace LotteryCoreConsole.Lottery_Calculation
+namespace LotterySharper.LotteryCalculation
 {
     public class BeginLottoCalculations : IBeginLottoCalculations
     {
@@ -15,8 +15,11 @@ namespace LotteryCoreConsole.Lottery_Calculation
         private readonly IParaSingles _paraSingles;
         private readonly IParaTriplets _paraTriplets;
 
-        public BeginLottoCalculations(INumberParsing lottoNumberParser, IParaSingles paraSingles, IParaPairs paraPairs,
-            IParaTriplets paraTriplets, IParaBonus paraBonus)
+        public BeginLottoCalculations(INumberParsing lottoNumberParser,
+                                      IParaSingles paraSingles,
+                                      IParaPairs paraPairs,
+                                      IParaTriplets paraTriplets,
+                                      IParaBonus paraBonus)
         {
             _lottoNumberParser = lottoNumberParser;
             _paraBonus = paraBonus;
@@ -30,7 +33,8 @@ namespace LotteryCoreConsole.Lottery_Calculation
             if (0 != lotto.Count)
             {
                 string resultsPath = $"./Lottery Results/{lotteryName}/";
-                if (!Directory.Exists(resultsPath)) Directory.CreateDirectory(resultsPath);
+                if (!Directory.Exists(resultsPath))
+                    Directory.CreateDirectory(resultsPath);
                 (IEnumerable<int[]> AllNumbers, IEnumerable<int> DistinctNumbers, IEnumerable<int> BonusNumbers) parsedLotto =
                     _lottoNumberParser.ParseLottoList(lotto);
 
@@ -40,8 +44,7 @@ namespace LotteryCoreConsole.Lottery_Calculation
                 _paraBonus.FindBonusParallel(lotteryName, parsedLotto);
             }
 
-            Console.WriteLine(
-                $"{DateTimeOffset.Parse(DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")).ToString("MM/dd/yyyy hh:mm:ss.fff tt")}" +
+            Console.WriteLine($"{DateTimeOffset.Parse(DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")).ToString("MM/dd/yyyy hh:mm:ss.fff tt")}" +
                 " : Done");
         }
     }

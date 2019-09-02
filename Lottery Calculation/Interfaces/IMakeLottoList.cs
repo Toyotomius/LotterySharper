@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using LotteryCoreConsole.Lottery_Calculation.GetSetObjects;
+﻿using LotterySharper.LotteryCalculation.Properties;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
-namespace LotteryCoreConsole.Lottery_Calculation.Interfaces
+namespace LotterySharper.LotteryCalculation.Interfaces
 {
     public interface IMakeLottoList
     {

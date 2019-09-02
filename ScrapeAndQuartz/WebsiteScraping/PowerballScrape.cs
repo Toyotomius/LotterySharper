@@ -1,11 +1,11 @@
-﻿using LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping.Interfaces;
+﻿using LotterySharper.ScrapeAndQuartz.WebsiteScraping.Interfaces;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping
+namespace LotterySharper.ScrapeAndQuartz.WebsiteScraping
 {
     /// <summary>
     ///     Scrapes the Atlantic Lottery Corporation Website @ https://powerball.com/api/v1/numbers/powerball/recent?_format=json for the
@@ -15,7 +15,7 @@ namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping
     {
         private readonly IAfterLottoWritten _afterLottoWritten;
         private readonly IFormatNewLotteryResult _formatNewLotteryResult;
-        
+
         private readonly IWriteNewLottoResult _writeNewResult;
 
         /// <summary>
@@ -26,9 +26,9 @@ namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping
         /// <param name="formatNewLotteryResult"></param>
         /// <param name="writeNewLottoResult"></param>
         public PowerballScrape(IFormatNewLotteryResult formatNewLotteryResult,
-            IWriteNewLottoResult writeNewLottoResult, IAfterLottoWritten afterLottoWritten)
+                               IWriteNewLottoResult writeNewLottoResult,
+                               IAfterLottoWritten afterLottoWritten)
         {
-            
             _formatNewLotteryResult = formatNewLotteryResult;
             _writeNewResult = writeNewLottoResult;
             _afterLottoWritten = afterLottoWritten;
@@ -47,29 +47,29 @@ namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping
                 powerballJson = await client.GetStringAsync(lotteryUrl);
             }
 
-            var powerballData = JArray.Parse(powerballJson);
+            JArray powerballData = JArray.Parse(powerballJson);
             var newLottoNumList = new List<string>();
 
             // Create a temporary list to store the lottery numbers.
-            var tempList = powerballData[0]["field_winning_numbers"].ToObject<string>().Split(',');
+            string[] tempList = powerballData[0]["field_winning_numbers"].ToObject<string>().Split(',');
 
             // Temporary list is then used to remove any leading 0s the website may have used. Json doesn't like leading 0s on numbers (fuck 'im).
             // Also removes the last number (bonus number) and separates it out into a new variable.
 
-            foreach (var itm in tempList)
+            foreach (string itm in tempList)
             {
-                var newItm = itm.Replace(itm, itm.TrimStart(new[] { '0' }));
+                string newItm = itm.Replace(itm, itm.TrimStart(new[] { '0' }));
                 newLottoNumList.Add(newItm);
             }
-            var bonusNum = newLottoNumList.Last();
+            string bonusNum = newLottoNumList.Last();
             newLottoNumList.Remove(bonusNum);
 
-            var usPowerballNums = string.Join(", ", newLottoNumList);
+            string usPowerballNums = string.Join(", ", newLottoNumList);
 
-            var newResults = await _formatNewLotteryResult.FormatResult(usPowerballNums, bonusNum);
+            string newResults = await _formatNewLotteryResult.FormatResult(usPowerballNums, bonusNum);
 
             _writeNewResult.NewLotteryResultsWritten += _afterLottoWritten.OnResultsWritten;
-            var writeTask = Task.Run(() => _writeNewResult.WriteNewResults("USPowerball", newResults));
+            Task writeTask = Task.Run(() => _writeNewResult.WriteNewResults("USPowerball", newResults));
             await writeTask;
         }
     }

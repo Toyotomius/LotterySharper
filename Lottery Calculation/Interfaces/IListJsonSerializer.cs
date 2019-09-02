@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LotteryCoreConsole.Lottery_Calculation.Interfaces
+namespace LotterySharper.LotteryCalculation.Interfaces
 {
     public interface IListJsonSerializer
     {

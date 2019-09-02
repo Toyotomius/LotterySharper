@@ -1,8 +1,8 @@
-﻿using System.IO;
+﻿using LotterySharper.LotteryCalculation.Interfaces;
+using System.IO;
 using System.Threading.Tasks;
-using LotteryCoreConsole.Lottery_Calculation.Interfaces;
 
-namespace LotteryCoreConsole.FileManagement
+namespace LotterySharper.FileManagement
 {
     public class FileOut : IFileOut
     {

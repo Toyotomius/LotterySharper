@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using LotteryCoreConsole.Lottery_Calculation.Interfaces;
+﻿using LotterySharper.LotteryCalculation.Interfaces;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
-namespace LotteryCoreConsole.FileManagement
+namespace LotterySharper.FileManagement
 {
     public class ListJsonSerializer : IListJsonSerializer
     {

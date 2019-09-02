@@ -13,12 +13,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="OldCode\OldCode.txt" />
-    <None Remove="Winning Numbers   Atlantic Lottery Corporation.htm" />
+    <Compile Remove="OldCode\**" />
+    <EmbeddedResource Remove="OldCode\**" />
+    <None Remove="OldCode\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="OldCode\OldCode.txt" />
+    <None Remove="Winning Numbers   Atlantic Lottery Corporation.htm" />
   </ItemGroup>
 
   <ItemGroup>

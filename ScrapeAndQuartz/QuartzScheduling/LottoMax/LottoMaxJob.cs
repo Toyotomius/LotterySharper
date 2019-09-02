@@ -1,9 +1,9 @@
-﻿using LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping.Interfaces;
+﻿using LotterySharper.ScrapeAndQuartz.WebsiteScraping.Interfaces;
 using Quartz;
 using System;
 using System.Threading.Tasks;
 
-namespace LotteryCoreConsole.ScrapeAndQuartz.QuartzScheduling.LottoMax
+namespace LotterySharper.ScrapeAndQuartz.QuartzScheduling.LottoMax
 {
     /// <summary>
     /// Job creation for Lotto Max to be executed by Quartz when triggered.

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using LotterySharper.LotteryCalculation.Interfaces;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using LotteryCoreConsole.Lottery_Calculation.Interfaces;
 
-namespace LotteryCoreConsole.Lottery_Calculation.PairsCode
+namespace LotterySharper.LotteryCalculation.PairsCode
 {
     public class LottoPairsJsonSerial : ILottoPairsJsonSerial
     {

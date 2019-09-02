@@ -1,48 +1,24 @@
-﻿using LotteryCoreConsole.FileManagement;
-using LotteryCoreConsole.Lottery_Calculation;
-using LotteryCoreConsole.Lottery_Calculation.Interfaces;
-using LotteryCoreConsole.Lottery_Calculation.PairsCode;
-using LotteryCoreConsole.Lottery_Calculation.SinglesCode;
-using LotteryCoreConsole.Lottery_Calculation.TripletsCode;
-using LotteryCoreConsole.Settings;
+﻿using LotterySharper.FileManagement;
+using LotterySharper.LotteryCalculation;
+using LotterySharper.LotteryCalculation.BonusCode;
+using LotterySharper.LotteryCalculation.Interfaces;
+using LotterySharper.LotteryCalculation.PairsCode;
+using LotterySharper.LotteryCalculation.SinglesCode;
+using LotterySharper.LotteryCalculation.TripletsCode;
+using LotterySharper.Settings;
 
-namespace LotteryCoreConsole
+namespace LotterySharper
 {
     public static class Factory
     {
-        public static IFileOut CreateFileOut()
+        private static ILottoBonusFileOut CreateBonusFileOut()
         {
-            return new FileOut();
+            return new LottoBonusFileOut(CreateFileOut());
         }
 
-        public static IValidateLottoLists CreateValidateLottoLists()
+        private static ILottoBonusJsonSerial CreateBonusJSonSerial()
         {
-            return new ValidateLottoLists(CreateBeginLottoCalculations());
-        }
-
-        internal static IBeginLottoCalculations CreateBeginLottoCalculations()
-        {
-            return new BeginLottoCalculations(CreateNumberParser(), CreateParaSingles(), CreateParaPairs(), CreateParaTriplets(), CreateParaBonus());
-        }
-
-        internal static IGetSettings CreateGetSettings()
-        {
-            return new GetSettings(SetNewSettings());
-        }
-
-        internal static ILogging CreateLogger()
-        {
-            return new Logging();
-        }
-
-        internal static IMakeLottoList CreateLottoList()
-        {
-            return new MakeLottoList();
-        }
-
-        internal static ISetSettings SetNewSettings()
-        {
-            return new SetSettings(CreateSettings(), CreateLogger());
+            return new LottoBonusJsonSerial(CreateJsonSerializer(), CreateBonusFileOut());
         }
 
         private static IListJsonSerializer CreateJsonSerializer()
@@ -68,15 +44,6 @@ namespace LotteryCoreConsole
         private static IParaBonus CreateParaBonus()
         {
             return new ParaBonus(CreateBonusJSonSerial());
-        }
-        private static ILottoBonusFileOut CreateBonusFileOut()
-        {
-            return new LottoBonusFileOut(CreateFileOut());
-        }
-
-        private static ILottoBonusJsonSerial CreateBonusJSonSerial()
-        {
-            return new LottoBonusJsonSerial(CreateJsonSerializer(), CreateBonusFileOut());
         }
 
         private static IParaPairs CreateParaPairs()
@@ -117,6 +84,45 @@ namespace LotteryCoreConsole
         private static ILottoTripsJsonSerial CreateTripsJsonSerial()
         {
             return new LottoTripsJsonSerial(CreateJsonSerializer(), CreateTripsFileOut());
+        }
+
+        internal static IBeginLottoCalculations CreateBeginLottoCalculations()
+        {
+            return new BeginLottoCalculations(CreateNumberParser(),
+                                              CreateParaSingles(),
+                                              CreateParaPairs(),
+                                              CreateParaTriplets(),
+                                              CreateParaBonus());
+        }
+
+        internal static IGetSettings CreateGetSettings()
+        {
+            return new GetSettings(SetNewSettings());
+        }
+
+        internal static ILogging CreateLogger()
+        {
+            return new Logging();
+        }
+
+        internal static IMakeLottoList CreateLottoList()
+        {
+            return new MakeLottoList();
+        }
+
+        internal static ISetSettings SetNewSettings()
+        {
+            return new SetSettings(CreateSettings(), CreateLogger());
+        }
+
+        public static IFileOut CreateFileOut()
+        {
+            return new FileOut();
+        }
+
+        public static IValidateLottoLists CreateValidateLottoLists()
+        {
+            return new ValidateLottoLists(CreateBeginLottoCalculations());
         }
     }
 }

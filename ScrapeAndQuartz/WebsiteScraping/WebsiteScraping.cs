@@ -1,10 +1,10 @@
-﻿using System.IO;
+﻿using LotterySharper.ScrapeAndQuartz.WebsiteScraping.Interfaces;
+using OpenQA.Selenium.Chrome;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping.Interfaces;
-using OpenQA.Selenium.Chrome;
 
-namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping
+namespace LotterySharper.ScrapeAndQuartz.WebsiteScraping
 {
     public interface IWebsiteScraping
     {
@@ -28,9 +28,9 @@ namespace LotteryCoreConsole.ScrapeAndQuartz.WebsiteScraping
             coptions.AddArgument("headless");
             var driver =
                 new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), coptions)
-                {
-                    Url = lotterySite
-                };
+            {
+                Url = lotterySite
+            };
             Task<string> source = Task.Run(() => driver.PageSource);
 
             //Screenshot sh = driver.GetScreenshot();

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using LotteryCoreConsole.Lottery_Calculation.Interfaces;
+﻿using LotterySharper.LotteryCalculation.Interfaces;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace LotteryCoreConsole.Settings
+namespace LotterySharper.Settings
 {
     public class GetSettings : IGetSettings
     {

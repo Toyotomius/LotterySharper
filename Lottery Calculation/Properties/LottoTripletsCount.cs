@@ -1,6 +1,6 @@
-﻿using LotteryCoreConsole.Lottery_Calculation.Interfaces;
+﻿using LotterySharper.LotteryCalculation.Interfaces;
 
-namespace LotteryCoreConsole.Lottery_Calculation.GetSetObjects
+namespace LotterySharper.LotteryCalculation.Properties
 {
     public class Triplets : Pairs, ITriplets
     {

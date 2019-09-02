@@ -1,7 +1,7 @@
 ﻿using Quartz;
 using System.Threading.Tasks;
 
-namespace LotteryCoreConsole.ScrapeAndQuartz.QuartzScheduling.USPowerball
+namespace LotterySharper.ScrapeAndQuartz.QuartzScheduling.USPowerball
 {
     /// <summary>
     /// Scheduler for the Lotto649 job.
@@ -17,15 +17,21 @@ namespace LotteryCoreConsole.ScrapeAndQuartz.QuartzScheduling.USPowerball
         public static async Task USPowerballScheduler(IScheduler Scheduler)
         {
             IJobDetail wedJob = JobBuilder.Create<USPowerballJob>().WithIdentity("Wednesday", "USPowerball").Build();
-            ITrigger wedTrigger = TriggerBuilder.Create().WithIdentity("WednesdayTrigger", "USPowerball")
-                .WithCronSchedule("0 0 4 ? * THU *").ForJob("Wednesday", "USPowerball").Build();
+            ITrigger wedTrigger = TriggerBuilder.Create()
+                .WithIdentity("WednesdayTrigger", "USPowerball")
+                .WithCronSchedule("0 0 4 ? * THU *")
+                .ForJob("Wednesday", "USPowerball")
+                .Build();
             //                   ^^S M H D Mo DoW Y - Seconds, Hours, Day of the Month, Month, Day of the Week, Year
             //                   Triggers at 4 am Thursday to capture results from the 649 draw on Wednesday.
             //                   All fields but Y necessary. * = "all values". In S field - * means every second.
 
             IJobDetail satJob = JobBuilder.Create<USPowerballJob>().WithIdentity("Saturday", "USPowerball").Build();
-            ITrigger satTrigger = TriggerBuilder.Create().WithIdentity("SaturdayTrigger", "USPowerball")
-                .WithCronSchedule("0 0 4 ? * SUN *").ForJob("Saturday", "USPowerball").Build();
+            ITrigger satTrigger = TriggerBuilder.Create()
+                .WithIdentity("SaturdayTrigger", "USPowerball")
+                .WithCronSchedule("0 0 4 ? * SUN *")
+                .ForJob("Saturday", "USPowerball")
+                .Build();
 
             await Scheduler.ScheduleJob(wedJob, wedTrigger);
             await Scheduler.ScheduleJob(satJob, satTrigger);
