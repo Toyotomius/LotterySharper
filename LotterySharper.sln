@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.28621.142
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LotterySharper", "LotterySharperConsole\LotterySharper.csproj", "{9DCB6747-5B35-48C0-B9D7-4AE981D1B534}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LotterySharperBlazor", "LotterySharperBlazor\LotterySharperBlazor.csproj", "{9554A4CE-D50D-46A0-81E7-97E006CC0D18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LotterySharperAPI", "LotterySharperAPI\LotterySharperAPI.csproj", "{8F5F46A4-1A0E-4F2E-9465-877529985282}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LotterySharperBlazor", "LotterySharperBlazor\LotterySharperBlazor.csproj", "{DD381728-C3D4-4631-B061-E5487F7402B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +19,14 @@ Global
 		{9DCB6747-5B35-48C0-B9D7-4AE981D1B534}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DCB6747-5B35-48C0-B9D7-4AE981D1B534}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DCB6747-5B35-48C0-B9D7-4AE981D1B534}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9554A4CE-D50D-46A0-81E7-97E006CC0D18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9554A4CE-D50D-46A0-81E7-97E006CC0D18}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9554A4CE-D50D-46A0-81E7-97E006CC0D18}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9554A4CE-D50D-46A0-81E7-97E006CC0D18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F5F46A4-1A0E-4F2E-9465-877529985282}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F5F46A4-1A0E-4F2E-9465-877529985282}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F5F46A4-1A0E-4F2E-9465-877529985282}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F5F46A4-1A0E-4F2E-9465-877529985282}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD381728-C3D4-4631-B061-E5487F7402B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD381728-C3D4-4631-B061-E5487F7402B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD381728-C3D4-4631-B061-E5487F7402B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD381728-C3D4-4631-B061-E5487F7402B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
