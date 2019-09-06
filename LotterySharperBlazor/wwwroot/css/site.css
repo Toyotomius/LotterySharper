@@ -120,6 +120,9 @@ body {
     height: 700px;
     background-color: #c5c5c5;
 }
+.cover-modified{
+    height: 0;
+}
 
 .title-container {
     display: -webkit-box;

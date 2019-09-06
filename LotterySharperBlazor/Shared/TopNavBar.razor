@@ -38,16 +38,19 @@
         </div>
     </div>
     <!-- TODO: Make smaller and cause it to disappear when a button is clicked.-->
-    <main class="cover">
+    <main class="@cover">
         <div class="title-container">
-            <h1 class="page-header">Welcome to Lottery Sharper</h1>
-            <p>Please select from one of the options above</p>
+            <h1 class="page-header">@welcome</h1>
+            <p>@welcome2</p>
         </div>
     </main>
 </body>
 
 @code {
-
+    // TODO: Better welcome system than this. Use CSS to hide content or something maybe?
+    string welcome2 = "Please select from one of the options above";
+    string welcome = "Welcome to Lottery Sharper";
+    string cover = "cover";
     string lottoJsonString;
     protected async Task OnClick649Async()
     {
@@ -55,6 +58,9 @@
         lottoJsonString = await Http.GetStringAsync
     ("sample-data/Lotto649.json");
         await OnClick649.InvokeAsync(lottoJsonString);
+        cover = "cover cover-modified";
+        welcome = null;
+        welcome2 = null;
 
     }
     [Parameter] public EventCallback<String> OnClick649 { get; set; }
