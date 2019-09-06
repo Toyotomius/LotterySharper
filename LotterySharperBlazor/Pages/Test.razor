@@ -1,5 +1,6 @@
 ﻿@inject HttpClient Http
 @using System.Linq;
+@using System.Text;
 @page "/test"
 <h1>This is a Test</h1>
 <p>Index?</p>
@@ -24,12 +25,13 @@ else
             {
                 <tr>
                     <td>@itm.Date</td>
-                    <td>@itm.Numbers[0], @itm.Numbers[1], @itm.Numbers[2], @itm.Numbers[3], @itm.Numbers[4], @itm.Numbers[5] </td>
+                    <td>@FormatNumbers(itm)</td>
                     <td>@itm.Bonus</td>
                 </tr>
             }
         </tbody>
     </table>
+
 
 }
 
@@ -45,17 +47,25 @@ else
 
     }
 
+    private string FormatNumbers(LottoData itm)
+    {
+        var sb = new StringBuilder();
+        foreach(var i in itm.Numbers)
+        {
+            sb.Append($"{i} ");
+        }
+        return sb.ToString();
+    }
+
     public class Lotto
     {
-    public List<LottoData>
-        Lotto649 { get; set; }
+        public List<LottoData> Lotto649 { get; set; }
 
-        }
-        public class LottoData
-        {
+    }
+    public class LottoData
+    {
         public string Date { get; set; }
-        public List<int>
-            Numbers { get; set; }
-            public int Bonus { get; set; }
-            }
-            }
+        public List<int> Numbers { get; set; }
+        public int Bonus { get; set; }
+    }
+}
