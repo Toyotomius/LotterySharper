@@ -1,5 +1,5 @@
-﻿@inject HttpClient Http
-<body>
+﻿@using System.IO
+
     <div class="topnavbar">
         <div class="logo-container">
             <a class="home-link" href="#">LotterySharper</a>
@@ -44,7 +44,7 @@
             <p>@welcome2</p>
         </div>
     </main>
-</body>
+
 
 @code {
     // TODO: Better welcome system than this. Use CSS to hide content or something maybe?
@@ -55,8 +55,7 @@
     protected async Task OnClick649Async()
     {
 
-        lottoJsonString = await Http.GetStringAsync
-    ("sample-data/Lotto649.json");
+        lottoJsonString = await File.ReadAllTextAsync("sample-data/Lotto649.json");
         await OnClick649.InvokeAsync(lottoJsonString);
         cover = "cover cover-modified";
         welcome = null;

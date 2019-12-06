@@ -1,0 +1,67 @@
+﻿@using System.IO;
+<body>
+    <div class="topnavbar">
+        <div class="logo-container">
+            <a class="home-link" href="#">LotterySharper</a>
+        </div>
+        <div class="topnav-links">
+            <div class="btn-group" style="width:100%">
+                <button style="width:33.3%" type="button" id="app-btn" class="dropdown-btn">
+                    Lotto649
+                    <div id="menu" class="topdropdown-menu">
+
+                        <a class="menu-link" @onclick="OnClick649Async">Lotto649 Results</a>
+                        <a class="menu-link" href="#">Lotto649 Single-Number Frequency</a>
+                        <a class="menu-link" href="#">Lotto649 Pairs Frequency</a>
+                        <a class="menu-link" href="#">Lotto649 Triplet Frequency</a>
+                    </div>
+                </button>
+                <button style="width:33.3%" type="button" id="app-btn" class="dropdown-btn">
+                    LottoMax
+                    <div id="menu" class="topdropdown-menu" style="margin-left:-33.3%">
+                        <a class="menu-link" href="#">LottoMax Results</a>
+                        <a class="menu-link" href="#">LottoMax Single-Number Frequency</a>
+                        <a class="menu-link" href="#">LottoMax Pairs Frequency</a>
+                        <a class="menu-link" href="#">LottoMax Triplet Frequency</a>
+                    </div>
+                </button>
+                <button style="width:33.3%" type="button" id="app-btn" class="dropdown-btn">
+                    US Powerball
+                    <div id="menu" class="topdropdown-menu" style="margin-left:-66.6%">
+                        <a class="menu-link" href="#">Powerball Results</a>
+                        <a class="menu-link" href="#">Powerball Single-Number Frequency</a>
+                        <a class="menu-link" href="#">Powerball Pairs Frequency</a>
+                        <a class="menu-link" href="#">Powerball Triplet Frequency</a>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- TODO: Make smaller and cause it to disappear when a button is clicked.-->
+    <main class="@cover">
+        <div class="title-container">
+            <h1 class="page-header">@welcome</h1>
+            <p>@welcome2</p>
+        </div>
+    </main>
+</body>
+
+@code {
+    // TODO: Better welcome system than this. Use CSS to hide content or something maybe?
+    string welcome2 = "Please select from one of the options above";
+    string welcome = "Welcome to Lottery Sharper";
+    string cover = "cover";
+    string lottoJsonString;
+    protected async Task OnClick649Async()
+    {
+
+        lottoJsonString = await File.ReadAllTextAsync("sample-data/Lotto649.json");
+
+        await OnClick649.InvokeAsync(lottoJsonString);
+        cover = "cover cover-modified";
+        welcome = null;
+        welcome2 = null;
+
+    }
+    [Parameter] public EventCallback<String> OnClick649 { get; set; }
+}
