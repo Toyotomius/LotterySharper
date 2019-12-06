@@ -1,4 +1,5 @@
 ﻿@using System.IO
+@inject Lotto649Service lotto649Service
 
     <div class="topnavbar">
         <div class="logo-container">
@@ -55,7 +56,7 @@
     protected async Task OnClick649Async()
     {
 
-        lottoJsonString = await File.ReadAllTextAsync("sample-data/Lotto649.json");
+        lottoJsonString = await lotto649Service.GetLotto649Async();
         await OnClick649.InvokeAsync(lottoJsonString);
         cover = "cover cover-modified";
         welcome = null;

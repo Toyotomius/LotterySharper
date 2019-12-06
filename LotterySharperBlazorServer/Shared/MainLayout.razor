@@ -1,15 +1,13 @@
 ﻿@using System.Text;
 @using Newtonsoft.Json;
+@using LotterySharperBlazorServer.Shared.Models;
+
 @inherits LayoutComponentBase
 
 <div>
     <TopNavBar OnClick649="@ClickHandler"></TopNavBar>
+</div>
 
-</div>
-<h1>This is a Test</h1>
-<div>
-    <LotterySharperBlazorServer.Pages.FetchData></LotterySharperBlazorServer.Pages.FetchData>
-</div>
 <p>Table?</p>
 @if (_lotto == null)
 {
@@ -37,13 +35,11 @@ else
         </tbody>
     </table>
 
-
 }
 
 @code {
 
     Lotto _lotto;
-
 
     public void ClickHandler(String lottoJsonString)
     {
@@ -59,15 +55,4 @@ else
         return sb.ToString();
     }
 
-    public class Lotto
-    {
-        public List<LottoData> Lotto649 { get; set; }
-
-    }
-    public class LottoData
-    {
-        public string Date { get; set; }
-        public List<int> Numbers { get; set; }
-        public int Bonus { get; set; }
-    }
 }
