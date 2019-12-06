@@ -1,4 +1,4 @@
-﻿@inject HttpClient Http
+﻿@using System.IO;
 <body>
     <div class="topnavbar">
         <div class="logo-container">
@@ -55,8 +55,8 @@
     protected async Task OnClick649Async()
     {
 
-        lottoJsonString = await Http.GetStringAsync
-    ("sample-data/Lotto649.json");
+        lottoJsonString = await File.ReadAllTextAsync("sample-data/Lotto649.json");
+
         await OnClick649.InvokeAsync(lottoJsonString);
         cover = "cover cover-modified";
         welcome = null;

@@ -1,7 +1,8 @@
+using LotterySharperBlazorBackup;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LotterySharperBlazor
+namespace LotterySharperBlazorBackup
 {
     public class Startup
     {

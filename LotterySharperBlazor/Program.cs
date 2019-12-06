@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Blazor.Hosting;
 
-namespace LotterySharperBlazor
+namespace LotterySharperBlazorBackup
 {
     public class Program
     {
