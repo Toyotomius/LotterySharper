@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LotterySharper", "LotterySh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LotterySharperAPI", "LotterySharperAPI\LotterySharperAPI.csproj", "{8F5F46A4-1A0E-4F2E-9465-877529985282}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LotterySharperBlazorBackup", "LotterySharperBlazor\LotterySharperBlazorBackup.csproj", "{DD381728-C3D4-4631-B061-E5487F7402B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LotterySharperBlazorBackup", "LotterySharperBlazorBackup\LotterySharperBlazorBackup.csproj", "{4A47010F-7270-4F72-87BC-2EEE38F492E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LotterySharperBlazorServer", "BlazorApp1\LotterySharperBlazorServer.csproj", "{44378FD7-6104-4888-BF11-D0225AF3F727}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LotterySharperBlazorServer", "LotterySharperBlazorServer\LotterySharperBlazorServer.csproj", "{72F7B59E-4A14-4387-BB93-9C66A4AF3B14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +25,14 @@ Global
 		{8F5F46A4-1A0E-4F2E-9465-877529985282}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F5F46A4-1A0E-4F2E-9465-877529985282}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F5F46A4-1A0E-4F2E-9465-877529985282}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD381728-C3D4-4631-B061-E5487F7402B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD381728-C3D4-4631-B061-E5487F7402B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD381728-C3D4-4631-B061-E5487F7402B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD381728-C3D4-4631-B061-E5487F7402B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{44378FD7-6104-4888-BF11-D0225AF3F727}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44378FD7-6104-4888-BF11-D0225AF3F727}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44378FD7-6104-4888-BF11-D0225AF3F727}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44378FD7-6104-4888-BF11-D0225AF3F727}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A47010F-7270-4F72-87BC-2EEE38F492E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A47010F-7270-4F72-87BC-2EEE38F492E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A47010F-7270-4F72-87BC-2EEE38F492E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A47010F-7270-4F72-87BC-2EEE38F492E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72F7B59E-4A14-4387-BB93-9C66A4AF3B14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72F7B59E-4A14-4387-BB93-9C66A4AF3B14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72F7B59E-4A14-4387-BB93-9C66A4AF3B14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72F7B59E-4A14-4387-BB93-9C66A4AF3B14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
