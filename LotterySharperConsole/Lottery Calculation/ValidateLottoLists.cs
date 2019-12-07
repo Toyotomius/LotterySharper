@@ -34,7 +34,8 @@ namespace LotterySharper.LotteryCalculation
                 try
                 {
                     lotto = createLottoList.CreateLottoList(lotteryName, lotteryData);
-                } catch (ArgumentNullException)
+                }
+                catch (ArgumentNullException)
                 {
                     parallelLog.Add($"{DateTime.Now} : Lottery Data List creation failed for \"{lotteryInfo.LotteryFile[i]}\". Verify the json file is correctly formed.\n" +
                         "    * See example.json for correct format. Ensure root object & file name are identical.");
