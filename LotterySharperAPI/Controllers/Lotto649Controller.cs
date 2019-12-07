@@ -66,6 +66,23 @@ namespace LotterySharperAPI.Controllers
             return Lotto649TripletsJson;
         }
 
+        [HttpGet("Bonus")]
+        public ActionResult<string> GetLotto649Bonus()
+        {
+            try
+            {
+                using (var sr = new StreamReader("../LotterySharperConsole/Lottery Results/Lotto649/Bonus.json"))
+                {
+                    Lotto649Json = sr.ReadToEnd();
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                return "We apologize but it seems Lotto 649 bonus frequency results are missing";
+            }
+            return Lotto649Json;
+        }
+
         [HttpGet]
         public ActionResult<string> GetLotto649Results()
         {
