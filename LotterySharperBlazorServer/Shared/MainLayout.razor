@@ -1,6 +1,7 @@
 ﻿@using System.Text;
 @using Newtonsoft.Json;
 @using LotterySharperBlazorServer.Shared.Models;
+@using LotterySharperBlazorServer.Shared;
 
 @inherits LayoutComponentBase
 
@@ -16,20 +17,34 @@
 else
 {
     <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Winning Numbers</th>
-                <th>Bonus</th>
-            </tr>
-        </thead>
+
+        <tr>
+            <th scope="col" style="text-align:center">Date</th>
+            <th scope="col" colspan="6" style="text-align:center">Winning Numbers</th>
+            <th scope="col" style="text-align:center">Bonus</th>
+        </tr>
+        <tr>
+            <th scope="row">&nbsp;</th>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
         <tbody>
             @foreach (var itm in _lotto.Lotto649)
             {
                 <tr>
-                    <td>@itm.Date</td>
-                    <td>@FormatNumbers(itm)</td>
-                    <td>@itm.Bonus</td>
+                    <td align="center">@itm.Date</td>
+
+                    @for (var i = 0; i < itm.Numbers.Count(); i++)
+                    {
+                        <td align="center">@itm.Numbers[i]</td>
+                    }
+                    <td align="center">@itm.Bonus</td>
                 </tr>
             }
         </tbody>
@@ -38,21 +53,12 @@ else
 }
 
 @code {
-
+    //TODO: Set up dropdown for displaying a select number of results per page. Set up pages for table!
     Lotto _lotto;
 
     public void ClickHandler(String lottoJsonString)
     {
         _lotto = JsonConvert.DeserializeObject<Lotto>(lottoJsonString);
-    }
-    private string FormatNumbers(LottoData itm)
-    {
-        var sb = new StringBuilder();
-        foreach (var i in itm.Numbers)
-        {
-            sb.Append($"{i} ");
-        }
-        return sb.ToString();
     }
 
 }
