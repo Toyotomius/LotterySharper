@@ -12,7 +12,7 @@
                     <div id="menu" class="topdropdown-menu">
 
                         <a class="menu-link" @onclick="OnClick649Async">Lotto649 Results</a>
-                        <a class="menu-link" href="#">Lotto649 Single-Number Frequency</a>
+                        <a class="menu-link" @onclick="OnClick649SinglesAsync">Lotto649 Single-Number Frequency</a>
                         <a class="menu-link" href="#">Lotto649 Pairs Frequency</a>
                         <a class="menu-link" href="#">Lotto649 Triplet Frequency</a>
                     </div>
@@ -53,6 +53,8 @@
     string welcome = "Welcome to Lottery Sharper";
     string cover = "cover";
     string lottoJsonString;
+    string singlesJsonString;
+
     protected async Task OnClick649Async()
     {
 
@@ -63,5 +65,15 @@
         welcome2 = null;
 
     }
+
+    protected async Task OnClick649SinglesAsync()
+    {
+        singlesJsonString = await lotto649Service.GetLotto649SinglesAsync();
+        await OnClick649Singles.InvokeAsync(singlesJsonString);
+        cover = "cover cover-modified";
+        welcome = null;
+        welcome2 = null;
+    }
     [Parameter] public EventCallback<String> OnClick649 { get; set; }
+    [Parameter] public EventCallback<String> OnClick649Singles { get; set; }
 }

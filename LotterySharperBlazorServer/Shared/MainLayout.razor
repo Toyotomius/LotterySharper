@@ -2,63 +2,61 @@
 @using Newtonsoft.Json;
 @using LotterySharperBlazorServer.Shared.Models;
 @using LotterySharperBlazorServer.Shared;
+@using LotterySharperBlazorServer.Pages;
 
 @inherits LayoutComponentBase
 
 <div>
-    <TopNavBar OnClick649="@ClickHandler"></TopNavBar>
+    <TopNavBar OnClick649="@FullLotteryClickHandler"
+               OnClick649Singles="@LotterySinglesClickHandler"></TopNavBar>
 </div>
 
-<p>Table?</p>
-@if (_lotto == null)
+<div>
+    <Lotto649Table _lotto="_lotto" />
+</div>
+
+@if (_lottoSingles == null)
 {
-    <p><em>Why null?</em></p>
+    <p><em>Why 649 Singles null?</em></p>
 }
 else
 {
     <table class="table">
 
         <tr>
-            <th scope="col" style="text-align:center">Date</th>
-            <th scope="col" colspan="6" style="text-align:center">Winning Numbers</th>
-            <th scope="col" style="text-align:center">Bonus</th>
+
+            <th scope="col" style="text-align:center">Number</th>
+            <th scope="col" style="text-align:center">Frequency</th>
         </tr>
-        <tr>
-            <th scope="row">&nbsp;</th>
-            <td>&nbsp;</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+
 
         <tbody>
-            @foreach (var itm in _lotto.Lotto649)
+            @foreach (var itm in _lottoSingles)
             {
                 <tr>
-                    <td align="center">@itm.Date</td>
+                    <td align="center">@itm.First</td>
+                    <td align="center">@itm.Frequency</td>
 
-                    @for (var i = 0; i < itm.Numbers.Count(); i++)
-                    {
-                        <td align="center">@itm.Numbers[i]</td>
-                    }
-                    <td align="center">@itm.Bonus</td>
                 </tr>
             }
         </tbody>
     </table>
-
 }
 
-@code {
-    //TODO: Set up dropdown for displaying a select number of results per page. Set up pages for table!
-    Lotto _lotto;
 
-    public void ClickHandler(String lottoJsonString)
-    {
-        _lotto = JsonConvert.DeserializeObject<Lotto>(lottoJsonString);
+    @code {
+        //TODO: Set up dropdown for displaying a select number of results per page. Set up pages for table!
+
+        Lotto _lotto;
+        List<LottoSinglesCount> _lottoSingles;
+
+        public void FullLotteryClickHandler(String lottoJsonString)
+        {
+            _lotto = JsonConvert.DeserializeObject<Lotto>(lottoJsonString);
+        }
+        public void LotterySinglesClickHandler(String singlesJsonString)
+        {
+            _lottoSingles = JsonConvert.DeserializeObject<List<LottoSinglesCount>>(singlesJsonString);
+        }
+
     }
-
-}
