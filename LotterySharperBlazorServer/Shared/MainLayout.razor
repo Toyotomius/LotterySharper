@@ -15,44 +15,20 @@
     <Lotto649Table _lotto="_lotto" />
 </div>
 
-@if (_lottoSingles == null)
-{
-    <p><em>Why 649 Singles null?</em></p>
-}
-else
-{
-    <table class="table">
-
-        <tr>
-
-            <th scope="col" style="text-align:center">Number</th>
-            <th scope="col" style="text-align:center">Frequency</th>
-        </tr>
-
-
-        <tbody>
-            @foreach (var itm in _lottoSingles)
-            {
-                <tr>
-                    <td align="center">@itm.First</td>
-                    <td align="center">@itm.Frequency</td>
-
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+<div>
+    <SinglesTable _lottoSingles="_lottoSingles"/>
+</div>
 
 
     @code {
         //TODO: Set up dropdown for displaying a select number of results per page. Set up pages for table!
-
-        Lotto _lotto;
+        bool hidden = false;
+        Lotto649ResultsModel _lotto;
         List<LottoSinglesCount> _lottoSingles;
 
         public void FullLotteryClickHandler(String lottoJsonString)
         {
-            _lotto = JsonConvert.DeserializeObject<Lotto>(lottoJsonString);
+            _lotto = JsonConvert.DeserializeObject<Lotto649ResultsModel>(lottoJsonString);
         }
         public void LotterySinglesClickHandler(String singlesJsonString)
         {

@@ -25,7 +25,7 @@ else
         </tr>
 
         <tbody>
-            @foreach (var itm in _lotto.LotteryData)
+            @foreach (var itm in _lotto.Lotto649)
             {
                 <tr>
                     <td align="center">@itm.Date</td>
@@ -44,5 +44,5 @@ else
 
 @code{
     [Parameter]
-    public Lotto _lotto { get; set; }
+    public Lotto649ResultsModel _lotto { get; set; }
 }
