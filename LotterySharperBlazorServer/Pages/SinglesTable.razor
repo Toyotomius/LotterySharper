@@ -1,0 +1,34 @@
+﻿@using LotterySharperBlazorServer.Shared.Models;
+
+@if (_lottoSingles == null)
+{
+    <p><em>Why 649 Singles null?</em></p>
+}
+else
+{
+    <table class="table">
+
+        <tr>
+
+            <th scope="col" style="text-align:center">Number</th>
+            <th scope="col" style="text-align:center">Frequency</th>
+        </tr>
+
+
+        <tbody>
+            @foreach (var itm in _lottoSingles)
+            {
+                <tr>
+                    <td align="center">@itm.First</td>
+                    <td align="center">@itm.Frequency</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code{
+    [Parameter]
+    public List<LottoSinglesCount> _lottoSingles { get; set; }
+}

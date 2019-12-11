@@ -2,12 +2,7 @@
 
 namespace LotterySharperBlazorServer.Shared.Models
 {
-    public class Lotto
-    {
-        public List<LottoData> LotteryData { get; set; }
-    }
-
-    public class LottoData
+    public class LotteryDataModel
     {
         public int Bonus { get; set; }
         public string Date { get; set; }
