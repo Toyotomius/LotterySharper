@@ -1,0 +1,56 @@
+﻿@using BlazorTable
+@using LotterySharperBlazorServer.Shared.Models
+
+
+
+@if (_lotto is null)
+    {
+
+    }
+    else
+    {
+
+        <table class="table">
+
+            <tr>
+                <th width="30" scope="col" style="text-align:center">Date</th>
+                <th scope="col" colspan="6" style="text-align:center">Winning Numbers</th>
+                <th scope="col" style="text-align:center">Bonus</th>
+            </tr>
+            <tr>
+                <th scope="row">&nbsp;</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tbody>
+                @foreach (var itm in _lotto.Lotto649)
+                {
+                    if (_lotto.Lotto649.IndexOf(itm) <= 50)
+                    {
+                        <tr>
+                            <td align="center">@itm.Date</td>
+
+                            @for (var i = 0; i < itm.Numbers.Count(); i++)
+                            {
+                                <td align="center">@itm.Numbers[i]</td>
+                            }
+                            <td align="center">@itm.Bonus</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    }
+
+    @code{
+
+        [Parameter]
+        public Lotto649ResultsModel _lotto { get; set; }
+
+    }

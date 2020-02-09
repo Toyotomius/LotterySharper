@@ -12,27 +12,41 @@
 </div>
 
 <div>
-    <Lotto649Table _lotto="_lotto" />
-</div>
-
-<div>
     <SinglesTable _lottoSingles="_lottoSingles"/>
 </div>
+<div>
+    <Lotto649Table _lotto="_lotto"  />
+</div>
 
+@code {
+    //TODO: Set up dropdown for displaying a select number of results per page. Set up pages for table!
+    bool hidden = false;
+    
 
-    @code {
-        //TODO: Set up dropdown for displaying a select number of results per page. Set up pages for table!
-        bool hidden = false;
-        Lotto649ResultsModel _lotto;
-        List<LottoSinglesCount> _lottoSingles;
+    Lotto649ResultsModel _lotto;
+    List<LottoSinglesCount> _lottoSingles;
 
-        public void FullLotteryClickHandler(String lottoJsonString)
-        {
-            _lotto = JsonConvert.DeserializeObject<Lotto649ResultsModel>(lottoJsonString);
-        }
-        public void LotterySinglesClickHandler(String singlesJsonString)
-        {
-            _lottoSingles = JsonConvert.DeserializeObject<List<LottoSinglesCount>>(singlesJsonString);
-        }
+    /// <summary>
+    /// Click handler to convert json string to object for table.
+    /// </summary>
+    /// <param name="lottoJsonString">Retrieved via API call in TopNavBar OnClick methods.</param>
+    public void FullLotteryClickHandler(String lottoJsonString)
+    {
+        _lotto = JsonConvert.DeserializeObject<Lotto649ResultsModel>(lottoJsonString);
+        
 
     }
+    public void LotterySinglesClickHandler(String singlesJsonString)
+    {
+        _lottoSingles = JsonConvert.DeserializeObject<List<LottoSinglesCount>>(singlesJsonString);
+        _lotto = null;
+
+
+
+
+    }
+
+
+
+
+}

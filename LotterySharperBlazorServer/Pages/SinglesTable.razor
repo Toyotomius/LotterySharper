@@ -6,29 +6,42 @@
 }
 else
 {
-    <table class="table">
+    <div class="@tableVisibility()">
+        <table class="table">
 
-        <tr>
+            <tr>
 
-            <th scope="col" style="text-align:center">Number</th>
-            <th scope="col" style="text-align:center">Frequency</th>
-        </tr>
+                <th scope="col" style="text-align:center">Number</th>
+                <th scope="col" style="text-align:center">Frequency</th>
+            </tr>
 
-
-        <tbody>
-            @foreach (var itm in _lottoSingles)
-            {
-                <tr>
-                    <td align="center">@itm.First</td>
-                    <td align="center">@itm.Frequency</td>
-
-                </tr>
-            }
-        </tbody>
-    </table>
+            <tbody>
+                @foreach (var itm in _lottoSingles)
+                {
+                    <tr>
+                        <td align="center">@itm.First</td>
+                        <td align="center">@itm.Frequency</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 
 @code{
     [Parameter]
     public List<LottoSinglesCount> _lottoSingles { get; set; }
+    [Parameter]
+    public bool hidden { get; set; }
+
+    private string tableVisibility()
+    {
+        if (hidden)
+        {
+            return "table-inactive";
+
+        }
+        else { return "table-active"; }
+    }
+
 }

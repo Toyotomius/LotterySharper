@@ -10,6 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BlazorTable-master\src\BlazorTable\BlazorTable.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="Lotto649.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
