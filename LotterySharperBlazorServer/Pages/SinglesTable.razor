@@ -1,47 +1,28 @@
 ﻿@using LotterySharperBlazorServer.Shared.Models;
+@using BlazorTable
+
 
 @if (_lottoSingles == null)
 {
-    <p><em>Why 649 Singles null?</em></p>
+
 }
 else
 {
-    <div class="@tableVisibility()">
-        <table class="table">
+    <header style="font-size:40px">@_lotteryName Singles Frequency
+    <hr />
+    </header>
+    <Table TableItem="LottoSinglesCount" Items="_lottoSingles" PageSize="20">
+        <Column TableItem="LottoSinglesCount" Title="Number" Field="@(x => x.First)" Sortable="true" Filterable="true" Width="33%" />
+        <Column TableItem="LottoSinglesCount" Title="Frequency" Field="@(x => x.Frequency)" Sortable="true" Filterable="true" Width="33%" />
 
-            <tr>
+        <Pager TableItem="LottoSinglesCount" ShowPageNumber="true" ShowTotalCount="true" />
+    </Table>
 
-                <th scope="col" style="text-align:center">Number</th>
-                <th scope="col" style="text-align:center">Frequency</th>
-            </tr>
-
-            <tbody>
-                @foreach (var itm in _lottoSingles)
-                {
-                    <tr>
-                        <td align="center">@itm.First</td>
-                        <td align="center">@itm.Frequency</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
 }
 
 @code{
     [Parameter]
     public List<LottoSinglesCount> _lottoSingles { get; set; }
     [Parameter]
-    public bool hidden { get; set; }
-
-    private string tableVisibility()
-    {
-        if (hidden)
-        {
-            return "table-inactive";
-
-        }
-        else { return "table-active"; }
-    }
-
+    public string _lotteryName { get; set; }
 }

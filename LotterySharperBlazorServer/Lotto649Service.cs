@@ -54,5 +54,31 @@ namespace LotterySharperBlazorServer
             }
             else { return null; }
         }
+        public async Task<string> GetLotto649PairsAsync()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get,
+                "https://localhost:44381/api/lotto649/pairs");
+
+            var response = await Client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsStringAsync();
+            }
+            else { return null; }
+        }
+        public async Task<string> GetLotto649TripletsAsync()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get,
+                "https://localhost:44381/api/lotto649/triplets");
+
+            var response = await Client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsStringAsync();
+            }
+            else { return null; }
+        }
     }
 }

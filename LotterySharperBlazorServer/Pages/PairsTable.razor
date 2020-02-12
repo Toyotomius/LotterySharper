@@ -1,0 +1,37 @@
+﻿@using Newtonsoft.Json;
+@using LotterySharperBlazorServer.Shared.Models;
+@using System.Linq;
+@using System.Text;
+@using System.Data;
+
+@using BlazorTable
+
+@if (_lottoPairs is null)
+{
+
+}
+else
+{
+    <header style="font-size:40px">
+        @_lotteryName Pairs Frequency
+        <hr />
+    </header>
+
+    <Table TableItem="LottoPairsCount" Items="_lottoPairs" PageSize="20">
+        <Column TableItem="LottoPairsCount" Title="First Number" Field="@(x => x.First)" Sortable="true" Filterable="true" Width="33%" />
+        <Column TableItem="LottoPairsCount" Title="Second Number" Field="@(x => x.Second)" Sortable="true" Filterable="true" Width="33%" />
+        <Column TableItem="LottoPairsCount" Title="Frequency" Field="@(x => x.Frequency)" Sortable="true" Filterable="true" Width="33%" />
+
+        <Pager TableItem="LottoPairsCount" ShowPageNumber="true" ShowTotalCount="true" />
+    </Table>
+
+}
+
+@code{
+
+    [Parameter]
+    public List<LottoPairsCount> _lottoPairs { get; set; }
+    [Parameter]
+    public string _lotteryName { get; set; }
+
+}

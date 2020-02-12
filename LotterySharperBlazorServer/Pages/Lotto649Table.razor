@@ -4,25 +4,22 @@
 @using System.Text;
 @using System.Data;
 
-
-
-
 @using BlazorTable
 
 @if (_lotto is null)
-    {
+{
 
-    }
-    else
-    {
+}
+else
+{
 
-<Table TableItem="LotteryDataModel" Items="_lotto.Lotto649" PageSize="20">
-    <Column TableItem="LotteryDataModel" Title="Date" Field="@(x => x.Date)" Sortable="true" Filterable="true" Width="33%" />
-    <Column TableItem="LotteryDataModel" Title="Numbers" Field="@(x => x.NumbersString)" Sortable="true" Filterable="true" Width="33%" Align="Align.Justify"/>
-    <Column TableItem="LotteryDataModel" Title="Bonus" Field="@(x => x.Bonus)" Sortable="true" Filterable="true" Width="33%"/>
+    <Table TableItem="LotteryDataModel" Items="_lotto.Lotto649" PageSize="20">
+        <Column TableItem="LotteryDataModel" Title="Date" Field="@(x => x.Date)" Sortable="true" Filterable="true" Width="33%" />
+        <Column TableItem="LotteryDataModel" Title="Numbers" Field="@(x => x.NumbersString)" Sortable="true" Filterable="true" Width="33%" Align="Align.Justify" />
+        <Column TableItem="LotteryDataModel" Title="Bonus" Field="@(x => x.Bonus)" Sortable="true" Filterable="true" Width="33%" Align="Align.Center" />
 
-    <Pager TableItem="LotteryDataModel" ShowPageNumber="true" ShowTotalCount="true" />
-</Table>
+        <Pager TableItem="LotteryDataModel" ShowPageNumber="true" ShowTotalCount="true" />
+    </Table>
 
 }
 
@@ -30,7 +27,5 @@
 
     [Parameter]
     public Lotto649ResultsModel _lotto { get; set; }
-
-
 
 }
