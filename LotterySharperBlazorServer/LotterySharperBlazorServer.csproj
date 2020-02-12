@@ -23,9 +23,6 @@
     <Content Update="Shared\NavMenu.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="Shared\SurveyPrompt.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
     <Content Update="Shared\TopNavBar.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>

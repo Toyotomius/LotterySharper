@@ -1,5 +1,7 @@
 ﻿@using System.IO
 @inject Lotto649Service lotto649Service
+@inject LottoMaxService lottoMaxService
+@inject PowerBallService powerBallService
 
 <div class="topnavbar">
     <div class="logo-container">
@@ -11,29 +13,31 @@
                 Lotto649
                 <div id="menu" class="topdropdown-menu">
 
-                    <a class="menu-link" @onclick="OnClick649Async">Lotto649 Results</a>
-                    <a class="menu-link" @onclick="OnClick649SinglesAsync">Lotto649 Single-Number Frequency</a>
-                    <a class="menu-link" @onclick="OnClick649PairsAsync">Lotto649 Pairs Frequency</a>
-                    <a class="menu-link" @onclick="OnClick649TripletsAsync">Lotto649 Triplets Frequency</a>
-                    <a class="menu-link" @onclick="OnClick649BonusAsync">Lotto649 Bonus Number Frequency</a>
+                    <a class="menu-link" @onclick="OnClick649Async">Lotto 649 Results</a>
+                    <a class="menu-link" @onclick="OnClick649SinglesAsync">Lotto 649 Single-Number Frequency</a>
+                    <a class="menu-link" @onclick="OnClick649PairsAsync">Lotto 649 Pairs Frequency</a>
+                    <a class="menu-link" @onclick="OnClick649TripletsAsync">Lotto 649 Triplets Frequency</a>
+                    <a class="menu-link" @onclick="OnClick649BonusAsync">Lotto 649 Bonus Number Frequency</a>
                 </div>
             </button>
             <button style="width:33.3%" type="button" id="app-btn" class="dropdown-btn">
                 LottoMax
                 <div id="menu" class="topdropdown-menu" style="margin-left:-33.3%">
-                    <a class="menu-link" href="#">LottoMax Results</a>
-                    <a class="menu-link" href="#">LottoMax Single-Number Frequency</a>
-                    <a class="menu-link" href="#">LottoMax Pairs Frequency</a>
-                    <a class="menu-link" href="#">LottoMax Triplets Frequency</a>
+                    <a class="menu-link" @onclick="OnClickMaxAsync">Lotto Max Results</a>
+                    <a class="menu-link" @onclick="OnClickMaxSinglesAsync">Lotto Max Single-Number Frequency</a>
+                    <a class="menu-link" @onclick="OnClickMaxPairsAsync">Lotto Max Pairs Frequency</a>
+                    <a class="menu-link" @onclick="OnClickMaxTripletsAsync">Lotto Max Triplets Frequency</a>
+                    <a class="menu-link" @onclick="OnClickMaxBonusAsync">Lotto Max Bonus Number Frequency</a>
                 </div>
             </button>
             <button style="width:33.3%" type="button" id="app-btn" class="dropdown-btn">
                 US Powerball
                 <div id="menu" class="topdropdown-menu" style="margin-left:-66.6%">
-                    <a class="menu-link" href="#">Powerball Results</a>
-                    <a class="menu-link" href="#">Powerball Single-Number Frequency</a>
-                    <a class="menu-link" href="#">Powerball Pairs Frequency</a>
-                    <a class="menu-link" href="#">Powerball Triplets Frequency</a>
+                    <a class="menu-link" @onclick="OnClickPowerBallAsync">Powerball Results</a>
+                    <a class="menu-link" @onclick="OnClickPowerBallSinglesAsync">Powerball Single-Number Frequency</a>
+                    <a class="menu-link" @onclick="OnClickPowerBallPairsAsync">Powerball Pairs Frequency</a>
+                    <a class="menu-link" @onclick="OnClickPowerBallTripletsAsync">Powerball Triplets Frequency</a>
+                    <a class="menu-link" @onclick="OnClickPowerBallBonusAsync">Powerball Bonus Number Frequency</a>
                 </div>
             </button>
         </div>
@@ -55,68 +59,25 @@
     string jsonString;
     string _lotteryName;
 
-    protected async Task OnClick649Async()
-    {
 
-        jsonString = await lotto649Service.GetLotto649Async();
-        await OnClick649.InvokeAsync(jsonString);
-        cover = "cover cover-modified";
-        welcome = null;
-        welcome2 = null;
 
-    }
 
-    protected async Task OnClick649SinglesAsync()
-    {
-        _lotteryName = "Lotto 649";
-        jsonString = await lotto649Service.GetLotto649SinglesAsync();
-        await OnClick649Singles.InvokeAsync(jsonString);
-        await OnClickSetName.InvokeAsync(_lotteryName);
-        cover = "cover cover-modified";
-        welcome = null;
-        welcome2 = null;
 
-    }
-
-    protected async Task OnClick649PairsAsync()
-    {
-        _lotteryName = "Lotto 649";
-        jsonString = await lotto649Service.GetLotto649PairsAsync();
-        await OnClick649Pairs.InvokeAsync(jsonString);
-        await OnClickSetName.InvokeAsync(_lotteryName);
-        cover = "cover cover-modified";
-        welcome = null;
-        welcome2 = null;
-
-    }
-    protected async Task OnClick649TripletsAsync()
-    {
-        _lotteryName = "Lotto 649";
-        jsonString = await lotto649Service.GetLotto649TripletsAsync();
-        await OnClick649Triplets.InvokeAsync(jsonString);
-        await OnClickSetName.InvokeAsync(_lotteryName);
-        cover = "cover cover-modified";
-        welcome = null;
-        welcome2 = null;
-
-    }
-
-    protected async Task OnClick649BonusAsync()
-    {
-        _lotteryName = "Lotto 649";
-        jsonString = await lotto649Service.GetLotto649BonusAsync();
-        await OnClick649Bonus.InvokeAsync(jsonString);
-        await OnClickSetName.InvokeAsync(_lotteryName);
-        cover = "cover cover-modified";
-        welcome = null;
-        welcome2 = null;
-
-    }
     [Parameter] public EventCallback<String> OnClick649 { get; set; }
     [Parameter] public EventCallback<String> OnClick649Singles { get; set; }
     [Parameter] public EventCallback<String> OnClick649Pairs { get; set; }
     [Parameter] public EventCallback<String> OnClick649Triplets { get; set; }
     [Parameter] public EventCallback<String> OnClick649Bonus { get; set; }
+    [Parameter] public EventCallback<String> OnClickMax { get; set; }
+    [Parameter] public EventCallback<String> OnClickMaxSingles { get; set; }
+    [Parameter] public EventCallback<String> OnClickMaxPairs { get; set; }
+    [Parameter] public EventCallback<String> OnClickMaxTriplets { get; set; }
+    [Parameter] public EventCallback<String> OnClickMaxBonus { get; set; }
+    [Parameter] public EventCallback<String> OnClickPowerBall { get; set; }
+    [Parameter] public EventCallback<String> OnClickPowerBallSingles { get; set; }
+    [Parameter] public EventCallback<String> OnClickPowerBallPairs { get; set; }
+    [Parameter] public EventCallback<String> OnClickPowerBallTriplets { get; set; }
+    [Parameter] public EventCallback<String> OnClickPowerBallBonus { get; set; }
     [Parameter] public EventCallback<String> OnClickSetName { get; set; }
 
 }

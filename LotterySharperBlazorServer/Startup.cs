@@ -25,10 +25,12 @@ namespace LotterySharperBlazorServer
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            
             // Due to version changes, switched from Client to Server-side which does not inject httpclient out of the box.
-            services.AddHttpClient<WeatherService>();
+            
             services.AddHttpClient<Lotto649Service>();
+            services.AddHttpClient<LottoMaxService>();
+            services.AddHttpClient<PowerBallService>();
 
 
         }

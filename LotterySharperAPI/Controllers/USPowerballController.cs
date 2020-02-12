@@ -5,99 +5,99 @@ namespace LotterySharperAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class USPowerballController : ControllerBase
+    public class PowerBallController : ControllerBase
     {
-        private string USPowerballJson = null;
-        private string USPowerballPairsJson = null;
-        private string USPowerballSinglesJson = null;
-        private string USPowerballTripletsJson = null;
+        private string PowerBallJson = null;
+        private string PowerBallPairsJson = null;
+        private string PowerBallSinglesJson = null;
+        private string PowerBallTripletsJson = null;
 
         [HttpGet("Pairs")]
-        public ActionResult<string> GetMaxPairs()
+        public ActionResult<string> GetPowerBallPairs()
         {
             try
             {
-                using (var sr = new StreamReader("../LotterySharperConsole/Lottery Results/USPowerball/Pairs.json"))
+                using (var sr = new StreamReader("../LotterySharperConsole/Lottery Results/USPowerBall/Pairs.json"))
                 {
-                    USPowerballPairsJson = sr.ReadToEnd();
+                    PowerBallPairsJson = sr.ReadToEnd();
                 }
             }
             catch (FileNotFoundException)
             {
-                return "We apologize but it seems US Powerball's pairs frequency results are missing";
+                return "We apologize but it seems Powerball's pairs frequency results are missing";
             }
 
-            return USPowerballPairsJson;
+            return PowerBallPairsJson;
         }
 
         [HttpGet("Singles")]
-        public ActionResult<string> GetMaxSingles()
+        public ActionResult<string> GetPowerBallSingles()
         {
             try
             {
-                using (var sr = new StreamReader("../LotterySharperConsole/Lottery Results/USPowerball/Singles.json"))
+                using (var sr = new StreamReader("../LotterySharperConsole/Lottery Results/USPowerBall/Singles.json"))
                 {
-                    USPowerballSinglesJson = sr.ReadToEnd();
+                    PowerBallSinglesJson = sr.ReadToEnd();
                 }
             }
             catch (FileNotFoundException)
             {
-                return "We apologize but it seems US Powerball's single frequency results are missing";
+                return "We apologize but it seems Powerball's single frequency results are missing";
             }
 
-            return USPowerballSinglesJson;
+            return PowerBallSinglesJson;
         }
 
         [HttpGet("Triplets")]
-        public ActionResult<string> GetMaxTriplets()
+        public ActionResult<string> GetPowerBallTriplets()
         {
             try
             {
-                using (var sr = new StreamReader("../LotterySharperConsole/Lottery Results/USPowerball/Triplets.json"))
+                using (var sr = new StreamReader("../LotterySharperConsole/Lottery Results/USPowerBall/Triplets.json"))
                 {
-                    USPowerballTripletsJson = sr.ReadToEnd();
+                    PowerBallTripletsJson = sr.ReadToEnd();
                 }
             }
             catch (FileNotFoundException)
             {
-                return "We apologize but it seems US Powerball's triplets frequency results are missing";
+                return "We apologize but it seems Powerball's triplets frequency results are missing";
             }
 
-            return USPowerballTripletsJson;
+            return PowerBallTripletsJson;
         }
 
         [HttpGet("Bonus")]
-        public ActionResult<string> GetUSPowerballBonus()
+        public ActionResult<string> GetPowerBallBonus()
         {
             try
             {
-                using (var sr = new StreamReader("../LotterySharperConsole/Lottery Results/USPowerball/Bonus.json"))
+                using (var sr = new StreamReader("../LotterySharperConsole/Lottery Results/USPowerBall/Bonus.json"))
                 {
-                    USPowerballJson = sr.ReadToEnd();
+                    PowerBallJson = sr.ReadToEnd();
                 }
             }
             catch (FileNotFoundException)
             {
-                return "We apologize but it seems US Powerball bonus frequency results are missing";
+                return "We apologize but it seems Powerball bonus frequency results are missing";
             }
-            return USPowerballJson;
+            return PowerBallJson;
         }
 
         [HttpGet]
-        public ActionResult<string> GetUSPowerballResults()
+        public ActionResult<string> GetPowerBallResults()
         {
             try
             {
-                using (var sr = new StreamReader("../LotterySharperConsole/Data Files/USPowerball.json"))
+                using (var sr = new StreamReader("../LotterySharperConsole/Data Files/USPowerBall.json"))
                 {
-                    USPowerballJson = sr.ReadToEnd();
+                    PowerBallJson = sr.ReadToEnd();
                 }
             }
             catch (FileNotFoundException)
             {
-                return "We apologize but it seems US Powerball's results are missing";
+                return "We apologize but it seems Powerball's results are missing";
             }
-            return USPowerballJson;
+            return PowerBallJson;
         }
     }
 }
