@@ -1,17 +1,17 @@
 ﻿@using LotterySharperBlazorServer.Shared.Models;
 @using BlazorTable
 
-@if (_lottoSingles == null)
+@if (_lottoBonus == null)
 {
 
 }
 else
 {
     <header style="font-size:40px">
-        @_lotteryName Singles Frequency
+        @_lotteryName Bonus Number Frequency
         <hr />
     </header>
-    <Table TableItem="LottoSinglesCount" Items="_lottoSingles" PageSize="20">
+    <Table TableItem="LottoSinglesCount" Items="_lottoBonus" PageSize="20">
         <Column TableItem="LottoSinglesCount" Title="Number" Field="@(x => x.First)" Sortable="true" Filterable="true" Width="33%" />
         <Column TableItem="LottoSinglesCount" Title="Frequency" Field="@(x => x.Frequency)" Sortable="true" Filterable="true" Width="33%" />
 
@@ -22,7 +22,7 @@ else
 
 @code{
     [Parameter]
-    public List<LottoSinglesCount> _lottoSingles { get; set; }
+    public List<LottoSinglesCount> _lottoBonus { get; set; }
     [Parameter]
     public string _lotteryName { get; set; }
 }

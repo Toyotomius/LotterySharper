@@ -9,9 +9,9 @@ namespace LotterySharperBlazorServer
     /// </summary>
     public class Lotto649Service
     {/// <summary>
-    /// Constructor for L649 API requests
-    /// </summary>
-    /// <param name="client">Http Client injected via DI</param>
+     /// Constructor for L649 API requests
+     /// </summary>
+     /// <param name="client">Http Client injected via DI</param>
         public Lotto649Service(HttpClient client)
         {
             client.BaseAddress = new Uri("https://localhost:44381");
@@ -20,6 +20,7 @@ namespace LotterySharperBlazorServer
         }
 
         public HttpClient Client { get; }
+
         /// <summary>
         /// Get request for main L649 results.
         /// </summary>
@@ -37,6 +38,35 @@ namespace LotterySharperBlazorServer
             }
             else { return null; }
         }
+
+        public async Task<string> GetLotto649BonusAsync()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get,
+                "https://localhost:44381/api/lotto649/bonus");
+
+            var response = await Client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsStringAsync();
+            }
+            else { return null; }
+        }
+
+        public async Task<string> GetLotto649PairsAsync()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get,
+                "https://localhost:44381/api/lotto649/pairs");
+
+            var response = await Client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsStringAsync();
+            }
+            else { return null; }
+        }
+
         /// <summary>
         /// Get request for L649 Singles Frequency
         /// </summary>
@@ -54,19 +84,7 @@ namespace LotterySharperBlazorServer
             }
             else { return null; }
         }
-        public async Task<string> GetLotto649PairsAsync()
-        {
-            var request = new HttpRequestMessage(HttpMethod.Get,
-                "https://localhost:44381/api/lotto649/pairs");
 
-            var response = await Client.SendAsync(request);
-
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadAsStringAsync();
-            }
-            else { return null; }
-        }
         public async Task<string> GetLotto649TripletsAsync()
         {
             var request = new HttpRequestMessage(HttpMethod.Get,

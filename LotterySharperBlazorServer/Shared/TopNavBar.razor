@@ -15,6 +15,7 @@
                     <a class="menu-link" @onclick="OnClick649SinglesAsync">Lotto649 Single-Number Frequency</a>
                     <a class="menu-link" @onclick="OnClick649PairsAsync">Lotto649 Pairs Frequency</a>
                     <a class="menu-link" @onclick="OnClick649TripletsAsync">Lotto649 Triplets Frequency</a>
+                    <a class="menu-link" @onclick="OnClick649BonusAsync">Lotto649 Bonus Number Frequency</a>
                 </div>
             </button>
             <button style="width:33.3%" type="button" id="app-btn" class="dropdown-btn">
@@ -54,8 +55,6 @@
     string jsonString;
     string _lotteryName;
 
-
-
     protected async Task OnClick649Async()
     {
 
@@ -88,7 +87,7 @@
         cover = "cover cover-modified";
         welcome = null;
         welcome2 = null;
-        
+
     }
     protected async Task OnClick649TripletsAsync()
     {
@@ -99,12 +98,25 @@
         cover = "cover cover-modified";
         welcome = null;
         welcome2 = null;
-        
+
+    }
+
+    protected async Task OnClick649BonusAsync()
+    {
+        _lotteryName = "Lotto 649";
+        jsonString = await lotto649Service.GetLotto649BonusAsync();
+        await OnClick649Bonus.InvokeAsync(jsonString);
+        await OnClickSetName.InvokeAsync(_lotteryName);
+        cover = "cover cover-modified";
+        welcome = null;
+        welcome2 = null;
+
     }
     [Parameter] public EventCallback<String> OnClick649 { get; set; }
     [Parameter] public EventCallback<String> OnClick649Singles { get; set; }
     [Parameter] public EventCallback<String> OnClick649Pairs { get; set; }
     [Parameter] public EventCallback<String> OnClick649Triplets { get; set; }
+    [Parameter] public EventCallback<String> OnClick649Bonus { get; set; }
     [Parameter] public EventCallback<String> OnClickSetName { get; set; }
-    
+
 }

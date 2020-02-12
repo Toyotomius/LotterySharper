@@ -11,26 +11,29 @@
                OnClickSetName="@SetNameHandler"
                OnClick649Singles="@LotterySinglesClickHandler"
                OnClick649Pairs="@LotteryPairsClickHandler"
-               OnClick649Triplets="@LotteryTripletsClickHandler">
+               OnClick649Triplets="@LotteryTripletsClickHandler"
+               OnClick649Bonus="@LotteryBonusClickHandler">
     </TopNavBar>
 </div>
 
-
 <div>
     <Lotto649Table _lotto="_lotto" />
-      
 </div>
 <div>
     <SinglesTable _lottoSingles="_lottoSingles"
                   _lotteryName="@_lotteryName" />
 </div>
 <div>
-    <PairsTable _lottoPairs="_lottoPairs" 
-                _lotteryName="@_lotteryName"/>
+    <PairsTable _lottoPairs="_lottoPairs"
+                _lotteryName="@_lotteryName" />
 </div>
 <div>
-    <TripletsTable _lottoTriplets="_lottoTriplets" 
-                   _lotteryName="@_lotteryName"/>
+    <TripletsTable _lottoTriplets="_lottoTriplets"
+                   _lotteryName="@_lotteryName" />
+</div>
+<div>
+    <BonusTable _lottoBonus="_lottoBonus"
+                _lotteryName="@_lotteryName" />
 </div>
 
 @code {
@@ -39,6 +42,7 @@
     List<LottoSinglesCount> _lottoSingles;
     List<LottoPairsCount> _lottoPairs;
     List<LottoTripletsCount> _lottoTriplets;
+    List<LottoSinglesCount> _lottoBonus;
 
     /// <summary>
     /// Click handler to convert json string to object for table.
@@ -46,39 +50,46 @@
     /// <param name="lottoJsonString">Retrieved via API call in TopNavBar OnClick methods.</param>
     public void Full649LotteryClickHandler(String lottoJsonString)
     {
+        SetAllNull();
         _lotto = JsonConvert.DeserializeObject<Lotto649ResultsModel>(lottoJsonString);
-        _lottoSingles = null;
-        _lottoPairs = null;
-        _lottoTriplets = null;
 
     }
     public void LotterySinglesClickHandler(String singlesJsonString)
     {
+        SetAllNull();
         _lottoSingles = JsonConvert.DeserializeObject<List<LottoSinglesCount>>(singlesJsonString);
-        _lotto = null;
-        _lottoPairs = null;
-        _lottoTriplets = null;
 
     }
     public void LotteryPairsClickHandler(String pairsJsonString)
     {
+        SetAllNull();
         _lottoPairs = JsonConvert.DeserializeObject<List<LottoPairsCount>>(pairsJsonString);
-        _lotto = null;
-        _lottoSingles = null;
-        _lottoTriplets = null;
 
     }
     public void LotteryTripletsClickHandler(String TripletsJsonString)
     {
+        SetAllNull();
         _lottoTriplets = JsonConvert.DeserializeObject<List<LottoTripletsCount>>(TripletsJsonString);
-        _lotto = null;
-        _lottoSingles = null;
-        _lottoPairs = null;
+
+    }
+    public void LotteryBonusClickHandler(String singlesJsonString)
+    {
+        SetAllNull();
+        _lottoBonus = JsonConvert.DeserializeObject<List<LottoSinglesCount>>(singlesJsonString);
 
     }
     public void SetNameHandler(String lotteryName)
     {
         _lotteryName = lotteryName;
+    }
+    private void SetAllNull()
+    {
+        _lotto = null;
+        _lottoSingles = null;
+        _lottoPairs = null;
+        _lottoTriplets = null;
+        _lottoBonus = null;
+
     }
 
     [Parameter]
