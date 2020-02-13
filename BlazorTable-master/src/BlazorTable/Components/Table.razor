@@ -1,0 +1,87 @@
+﻿@namespace BlazorTable
+@typeparam TableItem
+
+@if (Columns.Any())
+{
+
+    <table class="@TableClass" @attributes="UnknownParameters">
+        <thead class="@TableHeadClass">
+            <tr style="cursor: pointer;">
+                @foreach (IColumn<TableItem> column in Columns)
+                {
+                    <th style="@(!string.IsNullOrEmpty(column.Width) ? $"width:{column.Width};" : "") user-select: none"
+                        @ondrop="@(() => HandleDrop(column))"
+                        @ondragstart="@(() => HandleDragStart(column))"
+                        ondragover="event.preventDefault();"
+                        draggable="@(ColumnReorder.ToString())"
+                        @key="column">
+
+                        <div @onclick="@(() => column.SortBy())">
+                            <span>@column.Title</span>
+
+                            @if (column.SortColumn)
+                            {
+                                if (column.SortDescending)
+                                {<span>&#11014;</span> }
+                                else
+                                { <span>&#11015;</span>}
+                            }
+
+                            @if (column.Filterable)
+                            {
+                                <div class="float-right" @onclick="@((x) => column.ToggleFilter())" @onclick:stopPropagation>
+                                    <a href="javascript:;" @ref="column.FilterRef" style="text-decoration: none"><span style="@(column.Filter == null ? "opacity: 0.2;" : string.Empty)">&#128269;</span></a>
+                                </div>
+                            }
+                        </div>
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody class="@TableBodyClass">
+            @if (TempItems != null)
+            {
+                if (TempItems.Any())
+                {
+                    foreach (TableItem item in TempItems)
+                    {
+                        <tr @key="item" class="@RowClass(item)">
+                            @foreach (IColumn<TableItem> column in Columns)
+                            {
+                                <td @key="column" style="@(column.Align == Align.Left ? "text-align: left;" : column.Align == Align.Justify ? "text-align-last: justify;" : column.Align == Align.Center ? "text-align: center;" : column.Align == Align.Right ? "text-align: right;" : string.Empty)">
+                                    @if (IsEditMode && column.EditTemplate != null)
+                                    {
+                                        @column.EditTemplate(item)
+                                    }
+                                    else
+                                    {
+                                        if (column.Template == null)
+                                        {
+                                            @column.Render(item);
+                                        }
+                                        else
+                                        {
+                                            @column.Template(item);
+                                        }
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="@Columns.Count" style="text-align: center"><h1>No items...</h1></td></tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="@Columns.Count" style="text-align: center"><h1>Loading...</h1></td></tr>
+            }
+        </tbody>
+    </table>
+}
+
+<CascadingValue Value="(ITable<TableItem>)this" Name="Table">
+    @ChildContent
+</CascadingValue>
