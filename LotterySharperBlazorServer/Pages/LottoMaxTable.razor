@@ -17,7 +17,7 @@ else
         <hr />
     </header>
 
-    <Table TableItem="LotteryDataModel" Items="_lotto.LottoMax" PageSize="20">
+    <Table TableItem="LotteryDataModel" Items="_lotto.LottoMax" PageSize="10">
         <Column TableItem="LotteryDataModel" Title="Date" Field="@(x => x.Date)" Sortable="true" Filterable="true" Width="33%" />
         <Column TableItem="LotteryDataModel" Title="Numbers" Field="@(x => x.NumbersString)" Sortable="true" Filterable="true" Width="33%" Align="Align.Justify" />
         <Column TableItem="LotteryDataModel" Title="Bonus" Field="@(x => x.Bonus)" Sortable="true" Filterable="true" Width="33%" Align="Align.Center" />
