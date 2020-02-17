@@ -24,8 +24,7 @@ namespace LotterySharper
             IValidateLottoLists validateLists = Factory.CreateValidateLottoLists();
             await validateLists.ValidateLotteryLists(lotteryInfo);
 
-            // TODO: Remove delay. Just here for debugging.
-            await Task.Delay(8000);
+
 
             // If true: Uses Quartz.net to schedule tasks.
             // TODO: Check against settings file to see which website scraping tasks need to be scheduled.
@@ -59,6 +58,6 @@ namespace LotterySharper
 // The below are aimed for the addition of the web app.
 // TODO: Check to see if a file has been added to.Ignore it if it hasn't been.
 // TODO: Clean up logfile at various points.
-// TODO: Dependency Injection.
+
 // TODO: Sanity checks. All the sanity. It's currently without any ability to remain sane.
-// TODO: Add some sort of ability to pick out frequency based on a range of dates.
+
